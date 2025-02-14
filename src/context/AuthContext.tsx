@@ -8,6 +8,8 @@ interface User {
     email: string;
     nom: string;
     prenom: string;
+    photo?: string | null;
+
 }
 
 interface AuthContextType {
@@ -49,6 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             throw error;
         }
     };
+
 
     const signOut = async () => {
         setUser(null);
