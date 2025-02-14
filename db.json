@@ -1,0 +1,118 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "nom": "Burger Végétarien",
+      "description": "Steak de soja, salade, tomates",
+      "prix": 6.5,
+      "allergenes": ["soja", "gluten"],
+      "categorie": "vegetarien",
+      "disponible": true
+    },
+    {
+      "id": "2",
+      "nom": "Pâtes Carbonara",
+      "description": "Pâtes avec sauce crémeuse, lardons et parmesan",
+      "prix": 8.5,
+      "allergenes": ["lactose", "gluten"],
+      "categorie": "classique",
+      "disponible": true
+    },
+    {
+      "id": "3",
+      "nom": "Salade César",
+      "description": "Laitue, poulet grillé, croûtons et sauce César",
+      "prix": 7.5,
+      "allergenes": ["lactose", "gluten"],
+      "categorie": "classique",
+      "disponible": true
+    },
+    {
+      "id": "4",
+      "nom": "Taboule",
+      "description": "Laitue, poulet grillé, croûtons et sauce César",
+      "prix": 6.5,
+      "allergenes": ["Sulfites", "Gluten", "Moutarde"],
+      "categorie": "vegetarien",
+      "disponible": true
+    },
+    {
+      "id": "5",
+      "nom": "Kebab",
+      "description": "Laitue, poulet grillé, croûtons et sauce César",
+      "prix": 8.5,
+      "allergenes": ["lactose", "gluten"],
+      "categorie": "classique",
+      "disponible": true
+    },
+    {
+      "id": "6",
+      "nom": "crêpes au nutella",
+      "description": "crêpes au coulis de chocolat ",
+      "prix": 2,
+      "allergenes": ["lactose", "gluten"],
+      "categorie": "vegetarien",
+      "disponible": true
+    },
+    {
+      "id": "7",
+      "nom": "Gauffres",
+      "description": "gauffre nature",
+      "prix": 2,
+      "allergenes": ["lactose", "gluten"],
+      "categorie": "vegetarien",
+      "disponible": true
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "email": "test@test.com",
+      "password": "test",
+      "nom": "Test",
+      "prenom": "User",
+      "favoris": ["1", "2"]
+    }
+  ],
+  "favoris": [
+    {
+      "userId": "1",
+      "itemId": "1"
+    },
+    {
+      "userId": "1",
+      "itemId": "2"
+    }
+  ],
+  "panier": [
+    {
+      "userId": "1",
+      "itemId": "1",
+      "quantite": 2
+    },
+    {
+      "userId": "1",
+      "itemId": "3",
+      "quantite": 1
+    }
+  ],
+  "commandes": [
+    {
+      "id": "1",
+      "userId": "1",
+      "items": [
+        {
+          "itemId": "1",
+          "quantite": 2
+        },
+        {
+          "itemId": "3",
+          "quantite": 1
+        }
+      ],
+      "total": 20,
+      "date": "2025-02-13T10:00:00Z",
+      "status": "en préparation"
+    }
+  ]
+}
