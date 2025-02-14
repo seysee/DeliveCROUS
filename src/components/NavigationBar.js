@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
-import { Link, useSegments } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+import { View, Text, StyleSheet, useWindowDimensions, Animated, Pressable } from "react-native";
+import { useRouter, usePathname } from "expo-router";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useRef, useEffect } from "react";
 
 const menuItems = [
   { name: "Accueil", icon: "home", route: "/" },
@@ -13,27 +14,61 @@ const menuItems = [
 const NavigationBar = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
-  const activeSegment = useSegments()[0];
+  const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <View style={[styles.container, isDesktop ? styles.desktop : styles.mobile]}>
       {menuItems.map((item) => (
-        <Link href={item.route} key={item.name} style={styles.link}>
-          <FontAwesome
-            name={item.icon}
-            size={24}
-            color={activeSegment === item.route.replace("/", "") ? "blue" : "gray"}
-          />
-          <Text style={styles.text}>{item.name}</Text>
-        </Link>
+        <NavItem
+          key={item.name}
+          item={item}
+          isActive={pathname === item.route}
+          isDesktop={isDesktop}
+          router={router}
+        />
       ))}
     </View>
   );
 };
 
+const NavItem = ({ item, isActive, isDesktop, router }) => {
+  const colorAnim = useRef(new Animated.Value(isActive ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.timing(colorAnim, {
+      toValue: isActive ? 1 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [isActive]);
+
+  const handleNavigation = () => {
+    router.push(item.route);
+  };
+
+  const colorInterpolation = colorAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["black", "#e01020"],
+  });
+
+  return (
+    <Pressable onPress={handleNavigation} style={[styles.link, isDesktop && styles.desktopLink]}>
+      <Animated.Text style={{ color: colorInterpolation }}>
+        <FontAwesome5 name={item.icon} size={isDesktop ? 18 : 22} solid />
+      </Animated.Text>
+      {isDesktop && (
+        <Animated.Text style={[styles.text, { color: colorInterpolation, fontWeight: isActive ? "bold" : "400" }]}>
+          {item.name}
+        </Animated.Text>
+      )}
+    </Pressable>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     borderColor: "#ddd",
     alignItems: "center",
     justifyContent: "space-around",
@@ -45,23 +80,38 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: "row",
     borderTopWidth: 1,
-    paddingVertical: 0,
+    paddingVertical: 10,
+    justifyContent: "space-around",
   },
   desktop: {
+    position: "absolute",
     left: 0,
-    right: 0,
-    height: "100%",
-    width: 200,
+    top: 0,
+    bottom: 0,
+    width: 220,
     flexDirection: "column",
     borderRightWidth: 1,
+    justifyContent: "center",
     paddingVertical: 20,
+    alignItems: "center",
   },
   link: {
     alignItems: "center",
+    paddingVertical: 12,
+    flexDirection: "row",
+  },
+  desktopLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    paddingHorizontal: 20,
   },
   text: {
-    fontSize: 12,
-    color: "gray",
+    fontSize: 14,
+    textAlign: "left",
+    fontFamily: "Poppins",
+    marginLeft: 10,
   },
 });
 

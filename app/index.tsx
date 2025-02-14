@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { AuthProvider } from "@/src/context/AuthContext";
+import { View, Text, StyleSheet } from "react-native";
 
-export default function Page() {
+const Page = () => {
   return (
       <AuthProvider>
         <View style={styles.container}>
@@ -12,19 +13,15 @@ export default function Page() {
         </View>
       </AuthProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
   main: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     maxWidth: 960,
-    marginHorizontal: "auto",
+    width: "100%",
   },
   title: {
     fontSize: 64,
@@ -35,3 +32,5 @@ const styles = StyleSheet.create({
     color: "#38434D",
   },
 });
+
+export default Page;
