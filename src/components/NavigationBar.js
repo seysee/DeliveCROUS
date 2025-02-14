@@ -7,8 +7,7 @@ const menuItems = [
   { name: "Accueil", icon: "home", route: "/" },
   { name: "Commandes", icon: "list-alt", route: "/orders" },
   { name: "Favoris", icon: "heart", route: "/favorites" },
-  { name: "Compte", icon: "user", route: "/account" },
-  { name: "Connexion", icon: "sign-in", route: "/login" }
+  { name: "Compte", icon: "user", route: "/login" },
 ];
 
 const NavigationBar = () => {
