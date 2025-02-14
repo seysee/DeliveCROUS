@@ -1,5 +1,6 @@
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import ItemCard from "../src/components/ItemCard";
+import { AuthProvider } from "@/src/context/AuthContext";
 
 const dishes = [
     {
@@ -64,23 +65,41 @@ const dishes = [
 
 export default function Page() {
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Menu</Text>
-            <FlatList
-                data={dishes}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <ItemCard item={item} />}
-                numColumns={2}
-                columnWrapperStyle={styles.row} // espacement horizontal
-            />
-        </View>
+      <AuthProvider>
+          <View style={styles.container}>
+              <Text style={styles.title}>Menu</Text>
+              <FlatList
+                  data={dishes}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => <ItemCard item={item} />}
+                  numColumns={2}
+                  columnWrapperStyle={styles.row} // espacement horizontal
+              />
+          </View>
+        </AuthProvider>
     );
 }
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-    title: { fontSize: 24, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
-    row: { justifyContent: "space-between" }, // aligne les éléments correctement
+
+const styles = StyleSheet.create({
+  container: { 
+    flex: 1, 
+    padding: 20, 
+    backgroundColor: "#fff" 
+  },
+  title: {
+    fontSize: 64,
+    fontWeight: "bold",
+    marginBottom: 10, 
+    textAlign: "center"
+  },
+  subtitle: {
+    fontSize: 36,
+    color: "#38434D",
+  },
+  row: { 
+    justifyContent: "space-between" 
+  }, // aligne les éléments correctement
 });
-
-

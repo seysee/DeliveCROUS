@@ -1,7 +1,8 @@
-import { Stack } from "expo-router";
 import { View, useWindowDimensions, StyleSheet } from "react-native";
 import NavigationBar from "../src/components/NavigationBar";
+import { AuthProvider } from "../src/context/AuthContext";
 import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
 
 const MENU_HEIGHT = 60;
 const MENU_WIDTH = 200;
@@ -17,18 +18,20 @@ export default function Layout() {
     if (!fontsLoaded) return null;
 
   return (
-    <View style={styles.container}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            marginLeft: isDesktop ? MENU_WIDTH : 0,
-            paddingBottom: isDesktop ? 0 : MENU_HEIGHT,
-          },
-        }}
-      />
-      <NavigationBar />
-    </View>
+    <AuthProvider>
+      <View style={styles.container}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              marginLeft: isDesktop ? MENU_WIDTH : 0,
+              paddingBottom: isDesktop ? 0 : MENU_HEIGHT,
+            },
+          }}
+        />
+        <NavigationBar />
+      </View>
+    </AuthProvider>
   );
 }
 
