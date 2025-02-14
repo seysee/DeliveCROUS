@@ -68,7 +68,7 @@
     {
       "id": "1",
       "email": "test@test.com",
-      "password": "password123",
+      "password": "test",
       "nom": "Test",
       "prenom": "User",
       "favoris": ["1", "2"]
