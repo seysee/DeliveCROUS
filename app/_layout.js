@@ -12,10 +12,11 @@ export default function Layout() {
   const isDesktop = width >= 768;
 
   const [fontsLoaded] = useFonts({
-      Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-    });
-
-    if (!fontsLoaded) return null;
+    "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+  });
 
   return (
     <AuthProvider>

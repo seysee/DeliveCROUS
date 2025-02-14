@@ -57,7 +57,14 @@ const NavItem = ({ item, isActive, isDesktop, router }) => {
         <FontAwesome5 name={item.icon} size={isDesktop ? 18 : 22} solid />
       </Animated.Text>
       {isDesktop && (
-        <Animated.Text style={[styles.text, { color: colorInterpolation, fontWeight: isActive ? "bold" : "400" }]}>
+        <Animated.Text
+          style={[styles.text,
+            {
+              color: colorInterpolation,
+              fontFamily: isActive ? "Poppins-Bold" : "Poppins-Regular" // ✅ Utilise Poppins-Bold
+            }
+          ]}
+        >
           {item.name}
         </Animated.Text>
       )}
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     textAlign: "left",
-    fontFamily: "Poppins",
+    fontFamily: "Poppins-Regular",
     marginLeft: 10,
   },
 });

@@ -80,7 +80,6 @@ export default function Page() {
     );
 }
 
-
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
