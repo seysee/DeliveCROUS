@@ -5,7 +5,10 @@
       "nom": "Burger Végétarien",
       "description": "Steak de soja, salade, tomates",
       "prix": 6.5,
-      "allergenes": ["soja", "gluten"],
+      "allergenes": [
+        "soja",
+        "gluten"
+      ],
       "categorie": "vegetarien",
       "disponible": true
     },
@@ -14,7 +17,10 @@
       "nom": "Pâtes Carbonara",
       "description": "Pâtes avec sauce crémeuse, lardons et parmesan",
       "prix": 8.5,
-      "allergenes": ["lactose", "gluten"],
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "classique",
       "disponible": true
     },
@@ -23,7 +29,10 @@
       "nom": "Salade César",
       "description": "Laitue, poulet grillé, croûtons et sauce César",
       "prix": 7.5,
-      "allergenes": ["lactose", "gluten"],
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "classique",
       "disponible": true
     },
@@ -32,7 +41,11 @@
       "nom": "Taboule",
       "description": "Laitue, poulet grillé, croûtons et sauce César",
       "prix": 6.5,
-      "allergenes": ["Sulfites", "Gluten", "Moutarde"],
+      "allergenes": [
+        "Sulfites",
+        "Gluten",
+        "Moutarde"
+      ],
       "categorie": "vegetarien",
       "disponible": true
     },
@@ -41,7 +54,10 @@
       "nom": "Kebab",
       "description": "Laitue, poulet grillé, croûtons et sauce César",
       "prix": 8.5,
-      "allergenes": ["lactose", "gluten"],
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "classique",
       "disponible": true
     },
@@ -50,7 +66,10 @@
       "nom": "crêpes au nutella",
       "description": "crêpes au coulis de chocolat ",
       "prix": 2,
-      "allergenes": ["lactose", "gluten"],
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "vegetarien",
       "disponible": true
     },
@@ -59,7 +78,10 @@
       "nom": "Gauffres",
       "description": "gauffre nature",
       "prix": 2,
-      "allergenes": ["lactose", "gluten"],
+      "allergenes": [
+        "lactose",
+        "gluten"
+      ],
       "categorie": "vegetarien",
       "disponible": true
     }
@@ -67,33 +89,40 @@
   "users": [
     {
       "id": "1",
-      "email": "test@test.com",
+      "email": "test6@test.com",
       "password": "test",
-      "nom": "Test",
-      "prenom": "User",
-      "favoris": ["1", "2"]
+      "nom": "boudin",
+      "prenom": "caca",
+      "favoris": [
+        "1",
+        "2"
+      ]
     }
   ],
   "favoris": [
     {
       "userId": "1",
-      "itemId": "1"
+      "itemId": "1",
+      "id": "c60a"
     },
     {
       "userId": "1",
-      "itemId": "2"
+      "itemId": "2",
+      "id": "6d9f"
     }
   ],
   "panier": [
     {
       "userId": "1",
       "itemId": "1",
-      "quantite": 2
+      "quantite": 2,
+      "id": "625a"
     },
     {
       "userId": "1",
       "itemId": "3",
-      "quantite": 1
+      "quantite": 1,
+      "id": "194d"
     }
   ],
   "commandes": [

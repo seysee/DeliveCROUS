@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
 import { AuthContext } from "../../src/context/AuthContext";
+import { updateUser } from "../../src/services/api";
 
 const Index = () => {
     const authContext = useContext(AuthContext);
@@ -9,22 +10,81 @@ const Index = () => {
         return <Text>Erreur de chargement du contexte d'authentification</Text>;
     }
 
-    const { signIn } = authContext;
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const { user, signIn, signOut } = authContext;
+    const [nom, setNom] = useState(user?.nom || "");
+    const [prenom, setPrenom] = useState(user?.prenom || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [isEditing, setIsEditing] = useState(false);
+    const [password, setPassword] = useState("")
+
 
     const handleLogin = async () => {
-        console.log("🔵 Bouton Connexion pressé !");
         try {
-            console.log("🟡 Appel de signIn...");
             await signIn(email, password);
-            console.log("🟢 Connexion réussie !");
             Alert.alert("Connexion réussie !");
         } catch (error) {
-            console.error("🔴 Erreur lors de la connexion :", error);
             Alert.alert("Erreur", error.message);
         }
     };
+
+    const handleSave = async () => {
+        try {
+            const updatedUser = await updateUser(user.id, { nom, prenom, email });
+
+
+            await signIn(updatedUser.email, user.password);
+
+            Alert.alert("Succès", "Informations mises à jour !");
+            setIsEditing(false);
+        } catch (error) {
+            Alert.alert("Erreur", "Impossible de mettre à jour les informations.");
+        }
+    };
+
+    const handleLogout = async () => {
+        await signOut();
+        Alert.alert("Déconnexion réussie !");
+    };
+
+    if (user) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Profil</Text>
+
+                <Text>Nom :</Text>
+                <TextInput
+                    value={nom}
+                    onChangeText={setNom}
+                    editable={isEditing}
+                    style={styles.input}
+                />
+
+                <Text>Prénom :</Text>
+                <TextInput
+                    value={prenom}
+                    onChangeText={setPrenom}
+                    editable={isEditing}
+                    style={styles.input}
+                />
+
+                <Text>Email :</Text>
+                <TextInput
+                    value={email}
+                    onChangeText={setEmail}
+                    editable={isEditing}
+                    style={styles.input}
+                />
+
+                {isEditing ? (
+                    <Button title="Enregistrer" onPress={handleSave} />
+                ) : (
+                    <Button title="Modifier" onPress={() => setIsEditing(true)} />
+                )}
+
+                <Button title="Se déconnecter" onPress={handleLogout} />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -56,6 +116,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 20,
         marginTop: 100,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
     },
     input: {
         borderBottomWidth: 1,
