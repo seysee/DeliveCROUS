@@ -1,11 +1,8 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { Ionicons } from '@expo/vector-icons';
 import FavoriButton from "../components/FavoriteButton";
 import PanierButton from "../components/PanierButton";
-
-
 
 const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / 2 - 30;
@@ -31,7 +28,6 @@ export default function ItemCard({ item }) {
             {/* Description & Icons */}
             <View style={styles.descriptionContainer}>
                 <Text style={styles.description} numberOfLines={1}>{descriptionPreview}</Text>
-
 
                 {/* Utilisation des composants PanierButton et FavoriButton */}
                 <PanierButton inCart={inCart} toggleInCart={() => setInCart(!inCart)} />
