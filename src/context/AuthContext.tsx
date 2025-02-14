@@ -2,12 +2,14 @@ import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { login } from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// 🔹 Définition du type du contexte
+
 interface User {
     id: string;
     email: string;
     nom: string;
     prenom: string;
+    photo?: string | null;
+
 }
 
 interface AuthContextType {
@@ -16,7 +18,7 @@ interface AuthContextType {
     signOut: () => Promise<void>;
 }
 
-// 🔹 Création du contexte
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -41,14 +43,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 throw new Error("Utilisateur non trouvé");
             }
 
-            console.log("🟢 Utilisateur trouvé :", userData);
+            console.log(" Utilisateur trouvé :", userData);
             setUser(userData);
             await AsyncStorage.setItem("user", JSON.stringify(userData));
         } catch (error) {
-            console.error("❌ Erreur d'authentification :", error);
+            console.error(" Erreur d'authentification :", error);
             throw error;
         }
     };
+
 
     const signOut = async () => {
         setUser(null);

@@ -27,3 +27,25 @@ export const login = async (email: string, password: string) => {
         throw error;
     }
 };
+
+export const updateUser = async (id, updatedData) => {
+    try {
+        const response = await fetch(`${API_URL}/users/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la mise à jour des informations.");
+        }
+
+        const updatedUser = await response.json();
+        return updatedUser;
+    } catch (error) {
+        console.error(" Erreur API updateUser :", error);
+        throw error;
+    }
+};
