@@ -81,9 +81,6 @@ export default function Page() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-
-const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     padding: 20, 
