@@ -61,7 +61,7 @@ const NavItem = ({ item, isActive, isDesktop, router }) => {
           style={[styles.text,
             {
               color: colorInterpolation,
-              fontFamily: isActive ? "Poppins-Bold" : "Poppins-Regular" // ✅ Utilise Poppins-Bold
+              fontFamily: isActive ? "Poppins-Bold" : "Poppins-Regular"
             }
           ]}
         >

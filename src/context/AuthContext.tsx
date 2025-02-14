@@ -9,7 +9,6 @@ interface User {
     nom: string;
     prenom: string;
     photo?: string | null;
-
 }
 
 interface AuthContextType {
