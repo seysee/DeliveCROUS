@@ -2,6 +2,7 @@ import { View, useWindowDimensions, StyleSheet } from "react-native";
 import NavigationBar from "../src/components/NavigationBar";
 import { AuthProvider } from "../src/context/AuthContext";
 import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
 
 const MENU_HEIGHT = 60;
 const MENU_WIDTH = 200;

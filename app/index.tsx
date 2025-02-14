@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from "react-native";
 import { AuthProvider } from "@/src/context/AuthContext";
 import { View, Text, StyleSheet } from "react-native";
 
