@@ -65,7 +65,6 @@ const Index = () => {
        }
    };
 
-
     const handleMouseEnter = () => {
         Animated.timing(hoverAnim, {
             toValue: 1,
