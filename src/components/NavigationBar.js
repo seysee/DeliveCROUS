@@ -20,10 +20,10 @@ const NavigationBar = () => {
         <Link href={item.route} key={item.name} style={styles.link}>
           <FontAwesome
             name={item.icon}
-            size={24}
-            color={activeSegment === item.route.replace("/", "") ? "blue" : "gray"}
+            size={isDesktop ? 18 : 20}
+            color={activeSegment === item.route.substring(1) ? "blue" : "black"}
           />
-          <Text style={styles.text}>{item.name}</Text>
+          {isDesktop && <Text style={styles.text}>{item.name}</Text>}
         </Link>
       ))}
     </View>
@@ -32,7 +32,7 @@ const NavigationBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     borderColor: "#ddd",
     alignItems: "center",
     justifyContent: "space-around",
@@ -44,23 +44,31 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: "row",
     borderTopWidth: 1,
-    paddingVertical: 0,
+    paddingVertical: 10,
+    justifyContent: "space-around",
   },
   desktop: {
+    position: "absolute",
     left: 0,
-    right: 0,
-    height: "100%",
+    top: 0,
+    bottom: 0,
     width: 200,
     flexDirection: "column",
     borderRightWidth: 1,
+    justifyContent: "center",
     paddingVertical: 20,
+    alignItems: "center",
   },
   link: {
     alignItems: "center",
+    paddingVertical: 10,
   },
   text: {
     fontSize: 12,
     color: "gray",
+    textAlign: "center",
+    fontFamily: "Poppins",
+    marginLeft: 8,
   },
 });
 
