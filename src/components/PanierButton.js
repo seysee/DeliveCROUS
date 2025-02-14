@@ -2,13 +2,13 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function FavoriButton({ isFavorited, toggleIsFavorited }) {
+export default function PanierButton({ inCart, toggleInCart }) {
     return (
-        <TouchableOpacity onPress={toggleIsFavorited} style={styles.iconButton}>
+        <TouchableOpacity onPress={toggleInCart} style={styles.iconButton}>
             <Ionicons
-                name={isFavorited ? "heart" : "heart-outline"}
+                name={inCart ? "cart" : "cart-outline"}
                 size={24}
-                color={isFavorited ? "red" : "gray"}
+                color={inCart ? "black" : "gray"}
             />
         </TouchableOpacity>
     );
