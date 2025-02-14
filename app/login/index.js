@@ -1,6 +1,9 @@
 import React, { useState, useContext, useRef } from "react";
-import { View, Text, TextInput, Alert, StyleSheet, Pressable, Animated } from "react-native";
+import { View, Button, Text, TextInput, Alert, StyleSheet, Pressable, Animated, Image } from "react-native";
 import { AuthContext } from "../../src/context/AuthContext";
+import { updateUser } from "../../src/services/api";
+import * as ImagePicker from 'expo-image-picker';
+import { useEffect } from "react";
 
 const Index = () => {
     const authContext = useContext(AuthContext);
@@ -9,11 +12,16 @@ const Index = () => {
         return <Text>Erreur de chargement du contexte d'authentification</Text>;
     }
 
-    const { signIn } = authContext;
-    const [email, setEmail] = useState("");
+    const { user, signIn, signOut } = authContext;
+    const [nom, setNom] = useState(user?.nom || "");
+    const [prenom, setPrenom] = useState(user?.prenom || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [isEditing, setIsEditing] = useState(false);
     const [password, setPassword] = useState("");
+    const [photo, setPhoto] = useState(user?.photo || null);
 
     const hoverAnim = useRef(new Animated.Value(0)).current;
+    const buttonScale = useRef(new Animated.Value(1)).current;
 
     const handleLogin = async () => {
         try {
@@ -23,6 +31,40 @@ const Index = () => {
             Alert.alert("Erreur", error.message);
         }
     };
+
+    const handleSave = async () => {
+        try {
+            const updatedUser = await updateUser(user.id, { password, photo });
+            await signIn(user.email, password);
+            Alert.alert("Succès", "Mot de passe et photo mis à jour !");
+            setIsEditing(false);
+        } catch (error) {
+            Alert.alert("Erreur", "Impossible de mettre à jour les informations.");
+        }
+    };
+
+    const handleLogout = async () => {
+        await signOut();
+        Alert.alert("Déconnexion réussie !");
+    };
+
+   const pickImage = async () => {
+       let result = await ImagePicker.launchImageLibraryAsync({
+           mediaTypes: ["image"],
+           allowsEditing: true,
+           aspect: [1, 1],
+           quality: 1,
+       });
+
+       if (result.assets && result.assets.length > 0) {
+           const newPhoto = result.assets[0].uri;
+           setPhoto(newPhoto);
+           console.log("📸 Nouvelle photo mise à jour :", newPhoto); // ✅ Debug après update
+       } else {
+           console.log("⚠️ Aucune image sélectionnée");
+       }
+   };
+
 
     const handleMouseEnter = () => {
         Animated.timing(hoverAnim, {
@@ -45,50 +87,99 @@ const Index = () => {
         outputRange: ["#e01020", "#c00d1a"],
     });
 
-    return (
+
+
+    useEffect(() => {
+        console.log("📸 Nouvelle photo sélectionnée :", photo);
+    }, [photo]);
+
+
+    if (user) {
+        return (
         <View style={styles.container}>
-            <Text style={styles.title}>Se connecter</Text>
-            <Text style={styles.subtitle}>Bienvenue de retour !</Text>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                    value={email}
-                    onChangeText={setEmail}
-                    autoCapitalize="none"
-                    style={styles.input}
-                    placeholder="Entrez votre email"
-                    placeholderTextColor="#ccc"
-                />
-            </View>
+            <Text style={styles.title}>Profil</Text>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Mot de passe</Text>
-                <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    style={styles.input}
-                    placeholder="Entrez votre mot de passe"
-                    placeholderTextColor="#ccc"
-                />
-            </View>
+            {photo ? (
+                <Image source={{ uri: photo }} style={styles.profileImage} />
+            ) : (
+                <Text style={{ color: "#666" }}>Aucune photo sélectionnée</Text>
+            )}
 
-            <Pressable
-                onPress={handleLogin}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                <Animated.View style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
-                    <Text style={styles.buttonText}>Se connecter</Text>
-                </Animated.View>
-            </Pressable>
+            <Button title="Choisir une photo" onPress={pickImage} />
 
-            <Text style={styles.footer}>
-                Pas encore de compte ? <Text style={styles.link}>Inscrivez-vous</Text>
-            </Text>
+            <Text>Nom :</Text>
+            <Text style={styles.info}>{user.nom}</Text>
+
+            <Text>Prénom :</Text>
+            <Text style={styles.info}>{user.prenom}</Text>
+
+            <Text>Email :</Text>
+            <Text style={styles.info}>{user.email}</Text>
+
+            <Text>Mot de passe :</Text>
+            <TextInput
+                value={password}
+                onChangeText={setPassword}
+                editable={isEditing}
+                secureTextEntry
+                style={styles.input}
+            />
+
+            {isEditing ? (
+                <Button title="Enregistrer" onPress={handleSave} />
+            ) : (
+                <Button title="Modifier mot de passe" onPress={() => setIsEditing(true)} />
+            )}
+
+            <Button title="Se déconnecter" onPress={handleLogout} />
         </View>
-    );
+            );
+        }
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Se connecter</Text>
+                <Text style={styles.subtitle}>Bienvenue de retour !</Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Email</Text>
+                    <TextInput
+                        value={email}
+                        onChangeText={setEmail}
+                        autoCapitalize="none"
+                        style={styles.input}
+                        placeholder="Entrez votre email"
+                        placeholderTextColor="#ccc"
+                    />
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Mot de passe</Text>
+                    <TextInput
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        style={styles.input}
+                        placeholder="Entrez votre mot de passe"
+                        placeholderTextColor="#ccc"
+                    />
+                </View>
+
+                <Pressable
+                    onPress={handleLogin}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <Animated.View style={[styles.button, { backgroundColor: buttonBackgroundColor }]}>
+                        <Text style={styles.buttonText}>Se connecter</Text>
+                    </Animated.View>
+                </Pressable>
+
+                <Text style={styles.footer}>
+                    Pas encore de compte ? <Text style={styles.link}>Inscrivez-vous</Text>
+                </Text>
+            </View>
+        );
 };
 
 const styles = StyleSheet.create({
@@ -158,6 +249,12 @@ const styles = StyleSheet.create({
     link: {
         color: "#e01020",
         fontFamily: "Poppins-Bold",
+    },
+    profileImage:{
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginBottom:10,
     },
 });
 
