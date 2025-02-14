@@ -75,7 +75,7 @@ export default function Page() {
                   numColumns={2}
                   columnWrapperStyle={styles.row} // espacement horizontal
               />
-          </View
+          </View>
         </AuthProvider>
     );
 }
