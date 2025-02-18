@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
 import ItemCard from "../src/components/ItemCard";
 import { AuthProvider } from "@/src/context/AuthContext";
 
@@ -31,7 +31,6 @@ const dishes = [
         image: require("../assets/images/corn.jpg"),
         description: "Épi de maïs grillé, savamment assaisonné avec du beurre et des épices."
     },
-    // Desserts ajoutés
     {
         id: "5",
         name: "Tarte aux pommes",
@@ -62,41 +61,48 @@ const dishes = [
     },
 ];
 
-
 export default function Page() {
     return (
-      <AuthProvider>
-          <View style={styles.container}>
-              <Text style={styles.title}>Menu</Text>
-              <FlatList
-                  data={dishes}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => <ItemCard item={item} />}
-                  numColumns={2}
-                  columnWrapperStyle={styles.row} // espacement horizontal
-              />
-          </View>
+        <AuthProvider>
+            <SafeAreaView style={styles.safeContainer}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>Menu</Text>
+                    <FlatList
+                        data={dishes}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <ItemCard item={item} />}
+                        numColumns={2}
+                        columnWrapperStyle={styles.row}
+                        contentContainerStyle={{ paddingBottom: 20 }} // Permet le scroll fluide
+                        showsVerticalScrollIndicator={false} // Optionnel : cache la barre de scroll
+                    />
+                </View>
+            </SafeAreaView>
         </AuthProvider>
     );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    backgroundColor: "#fff" 
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-    marginBottom: 10, 
-    textAlign: "center"
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-  row: { 
-    justifyContent: "space-between" 
-  }, // aligne les éléments correctement
+    safeContainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#fff",
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: "bold",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    subtitle: {
+        fontSize: 36,
+        color: "#38434D",
+    },
+    row: {
+        justifyContent: "space-between",
+    },
 });
