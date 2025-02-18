@@ -95,46 +95,69 @@ const Index = () => {
 
     if (user) {
         return (
-        <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                <Text style={styles.profileTitle}>Profil</Text>
+                <Text style={styles.profileSubtitle}>Gérez vos informations personnelles</Text>
 
-            <Text style={styles.title}>Profil</Text>
+                {/* PHOTO DE PROFIL */}
+                <View style={styles.profileImageContainer}>
+                    {photo ? (
+                        <Image source={{ uri: photo }} style={styles.profileImage} />
+                    ) : (
+                        <Text style={styles.profileNoPhotoText}>Aucune photo sélectionnée</Text>
+                    )}
+                    <Pressable style={styles.profileButton} onPress={pickImage}>
+                        <Text style={styles.profileButtonText}>Choisir une photo</Text>
+                    </Pressable>
+                </View>
 
-            {photo ? (
-                <Image source={{ uri: photo }} style={styles.profileImage} />
-            ) : (
-                <Text style={{ color: "#666" }}>Aucune photo sélectionnée</Text>
-            )}
+                {/* INFOS PERSONNELLES*/}
+                <View style={styles.profileRow}>
+                    <View style={styles.profileInputContainer}>
+                        <Text style={styles.profileLabel}>Nom</Text>
+                        <Text style={styles.profileInfo}>{user.nom}</Text>
+                    </View>
+                    <View style={styles.profileInputContainer}>
+                        <Text style={styles.profileLabel}>Prénom</Text>
+                        <Text style={styles.profileInfo}>{user.prenom}</Text>
+                    </View>
+                </View>
 
-            <Button title="Choisir une photo" onPress={pickImage} />
+                <View style={styles.profileRow}>
+                    <View style={styles.profileInputContainer}>
+                        <Text style={styles.profileLabel}>Email</Text>
+                        <Text style={styles.profileInfo}>{user.email}</Text>
+                    </View>
+                    <View style={styles.profileInputContainer}>
+                        <Text style={styles.profileLabel}>Mot de passe</Text>
+                        <TextInput
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                            style={styles.profileInputEditable}
+                            placeholder="Entrez votre nouveau mot de passe"
+                            placeholderTextColor="#ccc"
+                        />
+                    </View>
+                </View>
 
-            <Text>Nom :</Text>
-            <Text style={styles.info}>{user.nom}</Text>
+                {/* BOUTONS */}
+                {isEditing ? (
+                    <Pressable style={styles.profileButton} onPress={handleSave}>
+                        <Text style={styles.profileButtonText}>Enregistrer</Text>
+                    </Pressable>
+                ) : (
+                    <Pressable style={styles.profileButton} onPress={() => setIsEditing(true)}>
+                        <Text style={styles.profileButtonText}>Modifier mot de passe</Text>
+                    </Pressable>
+                )}
 
-            <Text>Prénom :</Text>
-            <Text style={styles.info}>{user.prenom}</Text>
-
-            <Text>Email :</Text>
-            <Text style={styles.info}>{user.email}</Text>
-
-            <Text>Mot de passe :</Text>
-            <TextInput
-                value={password}
-                onChangeText={setPassword}
-                editable={isEditing}
-                secureTextEntry
-                style={styles.input}
-            />
-
-            {isEditing ? (
-                <Button title="Enregistrer" onPress={handleSave} />
-            ) : (
-                <Button title="Modifier mot de passe" onPress={() => setIsEditing(true)} />
-            )}
-
-            <Button title="Se déconnecter" onPress={handleLogout} />
-        </View>
-            );
-        }
+                <Pressable style={[styles.profileButton, styles.profileLogoutButton]} onPress={handleLogout}>
+                    <Text style={styles.profileButtonText}>Se déconnecter</Text>
+                </Pressable>
+            </View>
+        );
+    }
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>Se connecter</Text>
@@ -182,6 +205,7 @@ const Index = () => {
 };
 
 const styles = StyleSheet.create({
+    //se connecter
     container: {
         flex: 1,
         justifyContent: "center",
@@ -249,11 +273,100 @@ const styles = StyleSheet.create({
         color: "#e01020",
         fontFamily: "Poppins-Bold",
     },
+
+    //profile
     profileImage:{
         width: 100,
         height: 100,
         borderRadius: 50,
         marginBottom:10,
+    },
+    profileContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f9f9f9",
+        padding: 20,
+    },
+    profileTitle: {
+        fontSize: 28,
+        fontFamily: "Poppins-Bold",
+        color: "#e01020",
+    },
+    profileSubtitle: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#666",
+        marginBottom: 30,
+    },
+    profileImageContainer: {
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    profileNoPhotoText: {
+        color: "#666",
+        fontSize: 14,
+        fontFamily: "Poppins-Regular",
+    },
+    profileRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+        paddingHorizontal: 10,
+    },
+    profileInputContainer: {
+        width: "48%",
+        marginBottom: 15,
+    },
+    profileLabel: {
+        fontSize: 14,
+        fontFamily: "Poppins-Regular",
+        color: "#333",
+        marginBottom: 5,
+    },
+    profileInfo: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#333",
+        backgroundColor: "#f0f0f0",
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: "#ddd",
+        width: "100%",
+    },
+    profileInputEditable: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#333",
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: "#e01020",
+    },
+    profileButton: {
+        width: 280,
+        height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 25,
+        backgroundColor: "#e01020",
+        shadowColor: "#e01020",
+        shadowOpacity: 0.4,
+        shadowOffset: { width: 0, height: 4 },
+        shadowRadius: 5,
+        marginBottom: 10,
+    },
+    profileButtonText: {
+        color: "#fff",
+        fontSize: 18,
+        fontFamily: "Poppins-Bold",
+    },
+    profileLogoutButton: {
+        backgroundColor: "#333",
     },
 });
 
