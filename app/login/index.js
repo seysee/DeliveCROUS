@@ -23,6 +23,7 @@ const Index = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [password, setPassword] = useState("");
     const [photo, setPhoto] = useState(user?.photo || null);
+    const [initialPassword, setInitialPassword] = useState("");
 
     const handleLogin = async () => {
         console.log("Tentative de connexion...");
@@ -114,13 +115,36 @@ const Index = () => {
                     </View>
                 </View>
 
-                {/* BOUTONS */}
-                {isEditing ? (
-                    <Button title="Enregistrer" onPress={handleSave} />
-                ) : (
-                    <Button title="Modifier mot de passe" onPress={() => setIsEditing(true)} />
+                {!isEditing && (
+                    <Button
+                        title="Modifier mot de passe"
+                        onPress={() => {
+                            setInitialPassword(password);
+                            setIsEditing(true);
+                        }}
+                    />
                 )}
+
+                {isEditing && (
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <Button
+                            title="Enregistrer"
+                            onPress={handleSave}
+                            disabled={password === initialPassword || password.trim() === ""}
+                        />
+                        <Button
+                            title="Annuler"
+                            onPress={() => {
+                                setPassword(initialPassword);
+                                setIsEditing(false);
+                            }}
+                            style={{ backgroundColor: "#aaa" }}
+                        />
+                    </View>
+                )}
+
                 <Button title="Se déconnecter" onPress={handleLogout} style={{ backgroundColor: "#333" }} />
+
             </View>
         );
     }

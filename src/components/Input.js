@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, editable = true }) => {
-    const displayValue = secureTextEntry && !editable ? "••••••••" : value;
+const displayValue = secureTextEntry && !editable ? "•".repeat(value.length) : value;
 
     return (
         <View style={styles.container}>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderWidth: 1,
         borderColor: "#ddd",
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: "Poppins-Regular",
         color: "#333",
     },
