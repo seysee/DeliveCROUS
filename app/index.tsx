@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, FlatList, StyleSheet, SafeAreaView, useWindowDimensions } from "react-native";
 import ItemCard from "../src/components/ItemCard";
 import { AuthProvider } from "@/src/context/AuthContext";
 
@@ -62,6 +62,9 @@ const dishes = [
 ];
 
 export default function Page() {
+    const { width } = useWindowDimensions();
+    const numColumns = width < 600 ? 2 : width < 760 ? 3 : 4; // 4 colonnes pour les écrans larges
+
     return (
         <AuthProvider>
             <SafeAreaView style={styles.safeContainer}>
@@ -71,10 +74,11 @@ export default function Page() {
                         data={dishes}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => <ItemCard item={item} />}
-                        numColumns={2}
+                        numColumns={numColumns}
                         columnWrapperStyle={styles.row}
-                        contentContainerStyle={{ paddingBottom: 20 }} // Permet le scroll fluide
-                        showsVerticalScrollIndicator={false} // Optionnel : cache la barre de scroll
+                        contentContainerStyle={styles.listContainer}
+                        showsVerticalScrollIndicator={false}
+                        key={`column-${numColumns}`} // Ajoute une clé dynamique ici
                     />
                 </View>
             </SafeAreaView>
@@ -98,11 +102,11 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: "center",
     },
-    subtitle: {
-        fontSize: 36,
-        color: "#38434D",
-    },
     row: {
         justifyContent: "space-between",
+    },
+    listContainer: {
+        paddingHorizontal: 10, // Ajoute du padding horizontal pour espacer les colonnes
+        paddingBottom: 20,
     },
 });
