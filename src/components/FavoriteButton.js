@@ -1,14 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function FavoriButton({ isFavorited, toggleIsFavorited }) {
     return (
         <TouchableOpacity onPress={toggleIsFavorited} style={styles.iconButton}>
-            <Ionicons
-                name={isFavorited ? "heart" : "heart-outline"}
-                size={24}
+            <FontAwesome5
+                name={isFavorited ? "heart" : "heart-broken"}
+                size={18}
                 color={isFavorited ? "red" : "gray"}
+                solid
             />
         </TouchableOpacity>
     );

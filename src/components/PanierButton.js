@@ -1,14 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function PanierButton({ inCart, toggleInCart }) {
     return (
         <TouchableOpacity onPress={toggleInCart} style={styles.iconButton}>
-            <Ionicons
-                name={inCart ? "cart" : "cart-outline"}
-                size={24}
+            <FontAwesome5
+                name="shopping-cart"
+                size={18}
                 color={inCart ? "black" : "gray"}
+                solid
             />
         </TouchableOpacity>
     );
