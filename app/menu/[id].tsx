@@ -1,13 +1,22 @@
-import { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator } from "react-native";
+import { useEffect, useState, useMemo } from "react";
+import {View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions} from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import PanierButton from "@/src/components/PanierButton";
 import FavoriButton from "@/src/components/FavoriteButton";
 import ItemCard from "../../src/components/ItemCard";
+import { useFonts } from "expo-font";
 
 export default function ItemDetailsScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
+    const { width } = useWindowDimensions();
+
+    const [fontsLoaded] = useFonts({
+        "Poppins-Thin": require("../../assets/fonts/Poppins-Thin.ttf"),
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-Bold": require("../../assets/fonts/Poppins-Bold.ttf"),
+    });
 
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -38,68 +47,183 @@ export default function ItemDetailsScreen() {
         fetchItem();
     }, [id]);
 
+    const displayedRelatedItems = useMemo(() => relatedItems.slice(0, 3), [relatedItems]);
+
+    if (!fontsLoaded) {
+        return <ActivityIndicator size="large" color="#e01020" style={styles.loader} />;
+    }
+
     if (loading) {
-        return <ActivityIndicator size="large" color="blue" style={styles.loader} />;
+        return <ActivityIndicator size="large" color="#e01020" style={styles.loader} />;
     }
 
     if (error) {
         return (
-            <View style={styles.container}>
+            <View style={styles.errorContainer}>
                 <Text style={styles.errorText}>{error}</Text>
             </View>
         );
     }
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                 <Text style={styles.backText}>← Retour</Text>
             </TouchableOpacity>
+
             <Image source={{ uri: item.image }} style={styles.image} />
+
             <View style={styles.details}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.name}>{item.name}</Text>
-                    <PanierButton />
-                    <FavoriButton />
+                    <View style={styles.buttonContainer}>
+                        <PanierButton />
+                        <FavoriButton />
+                    </View>
                 </View>
+
                 <Text style={styles.price}>{item.price}€</Text>
                 <Text style={styles.description}>{item.description}</Text>
+
                 <Text style={styles.allergenTitle}>Allergènes</Text>
-                <Text style={styles.allergenList}>
-                    {item.allergens.length > 0 ? item.allergens.map((allergen, index) => (
-                        <Text key={index}>- {allergen}{"\n"}</Text>
-                    )) : "Aucun"}
-                </Text>
+                <View style={styles.allergenContainer}>
+                    {item.allergens.length > 0 ? (
+                        item.allergens.map((allergen, index) => (
+                            <View key={index} style={styles.allergenTag}>
+                                <Text style={styles.allergenText}>{allergen}</Text>
+                            </View>
+                        ))
+                    ) : (
+                        <Text style={styles.noAllergenText}>Aucun</Text>
+                    )}
+                </View>
             </View>
 
             <Text style={styles.suggestedTitle}>Plats Suggérés</Text>
             <FlatList
-                data={relatedItems.slice(0, 3)}
+                data={displayedRelatedItems}
                 horizontal
-                keyExtractor={(dish) => dish.id}
-                renderItem={({ item }) => <ItemCard item={item} />}
+                keyExtractor={(dish) => dish.id.toString()}
+                renderItem={({ item }) => <ItemCard item={item} cardWidth={width * 0.4} />}
                 contentContainerStyle={styles.suggestedContainer}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
+                showsHorizontalScrollIndicator={false}
             />
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: "#fff", padding: 20 },
-    backButton: { marginBottom: 10 },
-    backText: { fontSize: 18, color: "blue" },
-    image: { width: "100%", height: 250, borderRadius: 10 },
-    details: { marginTop: 20 },
-    titleContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 },
-    name: { fontSize: 22, fontWeight: "bold", flex: 1 },
-    price: { fontSize: 18, color: "red", marginVertical: 5 },
-    description: { fontSize: 16, color: "#555", marginBottom: 10 },
-    allergenTitle: { fontSize: 18, fontWeight: "bold", marginTop: 10 },
-    allergenList: { fontSize: 16, color: "#666" },
-    errorText: { fontSize: 20, color: "red", textAlign: "center", marginTop: 50 },
-    suggestedTitle: { fontSize: 20, fontWeight: "bold", marginTop: 30, marginBottom: 10 },
-    suggestedContainer: { flexDirection: "row", paddingRight: 15 },
-    separator: { width: 10 },
-    loader: { flex: 1, justifyContent: "center", alignItems: "center" },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingHorizontal: 20,
+        paddingTop: 30,
+        paddingBottom: 30,
+        paddingLeft: 40,
+        paddingRight: 20,
+    },
+    contentContainer: {
+        paddingBottom: 40,
+    },
+    backButton: {
+        marginBottom: 15,
+    },
+    backText: {
+        fontSize: 18,
+        color: "#e01020",
+        fontFamily: "Poppins-Bold",
+    },
+    image: {
+        width: "100%",
+        height: 250,
+        borderRadius: 10,
+        marginBottom: 20,
+    },
+    details: {
+        marginTop: 10,
+    },
+    titleContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        gap: 10,
+    },
+    name: {
+        fontSize: 24,
+        fontFamily: "Poppins-Bold",
+        flexShrink: 1,
+    },
+    price: {
+        fontSize: 20,
+        color: "#e01020",
+        fontFamily: "Poppins-Medium",
+        marginVertical: 5,
+    },
+    description: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#555",
+        marginBottom: 15,
+    },
+    allergenTitle: {
+        fontSize: 18,
+        fontFamily: "Poppins-Bold",
+        marginTop: 15,
+        marginBottom: 5,
+    },
+    allergenContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+    },
+    allergenTag: {
+        backgroundColor: "#ffebee",
+        borderRadius: 15,
+        paddingVertical: 5,
+        paddingHorizontal: 12,
+    },
+    allergenText: {
+        fontSize: 14,
+        fontFamily: "Poppins-Medium",
+        color: "#d32f2f",
+    },
+    noAllergenText: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#777",
+    },
+    suggestedTitle: {
+        fontSize: 20,
+        fontFamily: "Poppins-Bold",
+        marginTop: 30,
+        marginBottom: 10,
+    },
+    suggestedContainer: {
+        flexDirection: "row",
+        paddingRight: 15,
+    },
+    separator: {
+        width: 10,
+    },
+    loader: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorText: {
+        fontSize: 18,
+        color: "red",
+        fontFamily: "Poppins-Medium",
+        textAlign: "center",
+    },
 });

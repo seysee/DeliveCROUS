@@ -31,7 +31,10 @@ export default function ItemCard({ item }) {
             onPress={() => router.push(`/menu/${item.id}`)}
             accessibilityLabel={`Voir le plat ${item.name}`}
         >
-            <Image source={{ uri: item.image }} style={styles.image} onError={() => console.log("Image non trouvée")} />
+            <Image
+                source={{ uri: item.image }} style={styles.image}
+                onError={() => console.log("Image non trouvée")}
+            />
             <View style={styles.titleContainer}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.price}>{item.price} €</Text>
@@ -78,3 +81,5 @@ const styles = StyleSheet.create({
     },
     description: { fontSize: 12, color: "#666", flex: 1, marginRight: 8 },
 });
+
+
