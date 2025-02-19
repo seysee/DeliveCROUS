@@ -109,6 +109,7 @@ const Index = () => {
                             onChangeText={setPassword}
                             secureTextEntry
                             placeholder="Entrez votre mot de passe"
+                            editable={isEditing}
                         />
                     </View>
                 </View>

@@ -2,6 +2,8 @@ import React from "react";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, editable = true }) => {
+    const displayValue = secureTextEntry && !editable ? "••••••••" : value;
+
     return (
         <View style={styles.container}>
             {label && <Text style={styles.label}>{label}</Text>}
@@ -15,7 +17,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, edita
                     style={styles.input}
                 />
             ) : (
-                <Text style={styles.text}>{value}</Text>
+                <Text style={styles.text}>{displayValue}</Text>
             )}
         </View>
     );
