@@ -49,3 +49,14 @@ export const updateUser = async (id, updatedData) => {
         throw error;
     }
 };
+
+export const fetchItems = async () => {
+    try {
+        const response = await fetch("http://localhost:3000/items"); // Mets l'URL correcte de ton JSON Server
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        return [];
+    }
+};
