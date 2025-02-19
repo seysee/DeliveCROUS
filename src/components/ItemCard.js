@@ -21,9 +21,9 @@ export default function ItemCard({ item }) {
             accessibilityLabel={`Voir le plat ${item.name}`}
         >
             <Image
-                source={item.image}
-                style={styles.image}
-                onError={() => console.log("Image non trouvée")} // Gestion d'erreur pour l'image
+                source={{ uri: item.image }} style={styles.image}
+
+onError={() => console.log("Image non trouvée")} // Gestion d'erreur pour l'image
             />
             <View style={styles.titleContainer}>
                 <Text style={styles.name}>{item.name}</Text>
