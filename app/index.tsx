@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, FlatList, StyleSheet, SafeAreaView, useWindowDimensions, Platform } from "react-native";
 import ItemCard from "../src/components/ItemCard";
 import { AuthProvider } from "@/src/context/AuthContext";
 import { useEffect, useState } from "react";
@@ -6,8 +6,14 @@ import { useEffect, useState } from "react";
 export default function Page() {
     const [dishes, setDishes] = useState([]);
     const { width } = useWindowDimensions();
-    const numColumns = width < 600 ? 2 : width < 760 ? 3 : 4; // 4 colonnes pour les écrans larges
 
+    // Calcul du nombre de colonnes basé sur la largeur disponible
+    let numColumns = 2; // Valeur par défaut
+    if (width >= 1200) { // Large écran, 3 colonnes
+        numColumns = 3;
+    } else if (width >= 800) { // Moyenne taille d'écran, 2 colonnes
+        numColumns = 2;
+    }
 
     useEffect(() => {
         const fetchDishes = async () => {
@@ -26,20 +32,21 @@ export default function Page() {
         fetchDishes();
     }, []);
 
-
-
     return (
         <AuthProvider>
             <SafeAreaView style={styles.safeContainer}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Menu</Text>
+                    {/* Ajout de la clé pour forcer un nouveau rendu lorsque numColumns change */}
                     <FlatList
+                        key={`numColumns-${numColumns}`} // Clé dynamique pour forcer le re-rendu
                         data={dishes}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => <ItemCard item={item} />}
-                        numColumns={2}
-                        columnWrapperStyle={styles.row}
-                        contentContainerStyle={{ paddingBottom: 20 }} // Permet le scroll fluide
+                        numColumns={numColumns} // Ajuste le nombre de colonnes dynamiquement
+                        // Applique columnWrapperStyle uniquement si c'est un navigateur web
+                        columnWrapperStyle={Platform.OS === 'web' ? styles.row : null}
+                        contentContainerStyle={{ paddingBottom: 20 }} // Permet un scroll fluide
                         showsVerticalScrollIndicator={false} // Optionnel : cache la barre de scroll
                     />
                 </View>
@@ -65,7 +72,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     row: {
-        justifyContent: "space-between",
+        justifyContent: "space-between", // Espace entre les éléments
     },
     listContainer: {
         paddingHorizontal: 10, // Ajoute du padding horizontal pour espacer les colonnes
