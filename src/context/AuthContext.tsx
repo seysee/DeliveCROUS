@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
 import { login } from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 interface User {
     id: string;
@@ -17,9 +16,15 @@ interface AuthContextType {
     signOut: () => Promise<void>;
 }
 
-
+// Création du contexte
 export const AuthContext = createContext<AuthContextType | null>(null);
 
+// Création du hook useAuth
+export function useAuth() {
+    return useContext(AuthContext);
+}
+
+// Fournisseur d'authentification
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
@@ -51,7 +56,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
-
     const signOut = async () => {
         setUser(null);
         await AsyncStorage.removeItem("user");
@@ -63,3 +67,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         </AuthContext.Provider>
     );
 };
+
+// Exporte le contexte et le hook personnalisé
+export { AuthContext, useAuth };
