@@ -4,9 +4,8 @@ import { useRouter } from "expo-router";
 import FavoriButton from "../components/FavoriteButton";
 import PanierButton from "../components/PanierButton";
 
-export default function ItemCard({ item }) {
+export default function ItemCard({ item, onFavoriteToggle, isFavorited }) {
     const router = useRouter();
-    const [isFavorited, setIsFavorited] = useState(false);
     const [inCart, setInCart] = useState(false);
     const { width } = useWindowDimensions();
     const numColumns = width < 600 ? 2 : width < 760 ? 3 : 4;
@@ -21,9 +20,9 @@ export default function ItemCard({ item }) {
             accessibilityLabel={`Voir le plat ${item.name}`}
         >
             <Image
-                source={{ uri: item.image }} style={styles.image}
-
-onError={() => console.log("Image non trouvée")} // Gestion d'erreur pour l'image
+                source={{ uri: item.image }}
+                style={styles.image}
+                onError={(e) => console.log("Image non trouvée", e.nativeEvent.error)}
             />
             <View style={styles.titleContainer}>
                 <Text style={styles.name}>{item.name}</Text>
@@ -32,7 +31,7 @@ onError={() => console.log("Image non trouvée")} // Gestion d'erreur pour l'ima
             <View style={styles.descriptionContainer}>
                 <Text style={styles.description} numberOfLines={1}>{descriptionPreview}</Text>
                 <PanierButton inCart={inCart} toggleInCart={() => setInCart(!inCart)} />
-                <FavoriButton isFavorited={isFavorited} toggleIsFavorited={() => setIsFavorited(!isFavorited)} />
+                <FavoriButton isFavorited={isFavorited} toggleIsFavorited={() => onFavoriteToggle(item.id)} />
             </View>
         </TouchableOpacity>
     );
