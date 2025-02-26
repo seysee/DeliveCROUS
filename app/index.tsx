@@ -38,17 +38,15 @@ export default function Page() {
                 <SafeAreaView style={styles.safeContainer}>
                     <View style={styles.container}>
                         <Text style={styles.title}>Menu</Text>
-                        {/* Ajout de la clé pour forcer un nouveau rendu lorsque numColumns change */}
                         <FlatList
-                            key={`numColumns-${numColumns}`} // Clé dynamique pour forcer le re-rendu
+                            key={`numColumns-${numColumns}`} //
                             data={dishes}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => <ItemCard item={item} />}
-                            numColumns={numColumns} // Ajuste le nombre de colonnes dynamiquement
-                            // Applique columnWrapperStyle uniquement si c'est un navigateur web
+                            numColumns={numColumns}
                             columnWrapperStyle={Platform.OS === 'web' ? styles.row : null}
-                            contentContainerStyle={{ paddingBottom: 20 }} // Permet un scroll fluide
-                            showsVerticalScrollIndicator={false} // Optionnel : cache la barre de scroll
+                            contentContainerStyle={{ paddingBottom: 20 }}
+                            showsVerticalScrollIndicator={false}
                         />
                     </View>
                 </SafeAreaView>
@@ -74,10 +72,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     row: {
-        justifyContent: "space-between", // Espace entre les éléments
+        justifyContent: "space-between",
     },
     listContainer: {
-        paddingHorizontal: 10, // Ajoute du padding horizontal pour espacer les colonnes
+        paddingHorizontal: 10,
         paddingBottom: 20,
     },
 });

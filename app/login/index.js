@@ -59,7 +59,7 @@ const Index = () => {
        if (result.assets && result.assets.length > 0) {
            const newPhoto = result.assets[0].uri;
            setPhoto(newPhoto);
-           console.log("📸 Nouvelle photo mise à jour :", newPhoto); // ✅ Debug après update
+           console.log("📸 Nouvelle photo mise à jour :", newPhoto);
        } else {
            console.log("⚠️ Aucune image sélectionnée");
        }

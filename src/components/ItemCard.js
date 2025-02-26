@@ -8,14 +8,14 @@ import { usePanier } from "../context/PanierContext"; // Import du contexte du p
 export default function ItemCard({ item }) {
     const router = useRouter();
     const [isFavorited, setIsFavorited] = useState(false);
-    const { panier, ajouterAuPanier, supprimerDuPanier } = usePanier(); // Accède aux fonctions du panier
+    const { panier, ajouterAuPanier, supprimerDuPanier } = usePanier();
     const { width } = useWindowDimensions();
     const numColumns = width < 600 ? 2 : width < 760 ? 3 : 4;
     const cardWidth = width / numColumns - 10;
 
     const descriptionPreview = item.description.length > 30 ? item.description.substring(0, 30) + "..." : item.description;
 
-    // Vérifie si l'élément est dans le panier
+
     const inCart = panier.some(panierItem => panierItem.id === item.id);
 
     const toggleInCart = () => {

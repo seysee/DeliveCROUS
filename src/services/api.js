@@ -52,7 +52,7 @@ export const updateUser = async (id, updatedData) => {
 
 export const fetchItems = async () => {
     try {
-        const response = await fetch("http://localhost:3000/items"); // Mets l'URL correcte de ton JSON Server
+        const response = await fetch("http://localhost:3000/items");
         const data = await response.json();
         return data;
     } catch (error) {

@@ -122,61 +122,32 @@
   "favoris": [
     {
       "userId": "1",
-      "itemId": "1",
-      "id": "c60a"
-    },
-    {
-      "userId": "1",
       "itemId": "2",
       "id": "6d9f"
     }
   ],
-  "panier": [
-    {
-      "id": "3882",
-      "userId": "1",
-      "itemId": {
-        "itemId": "1",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "aae7",
-      "userId": "1",
-      "itemId": {
-        "itemId": "2",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "f373",
-      "userId": "2",
-      "itemId": {
-        "itemId": "3",
-        "quantite": 1
-      },
-      "quantite": 1
-    }
-  ],
+  "panier": [],
   "commandes": [
     {
-      "id": "1",
+      "id": "d952",
       "userId": "1",
       "items": [
         {
-          "itemId": "1",
+          "itemId": {
+            "itemId": "6",
+            "quantite": 1
+          },
           "quantite": 2
-        },
-        {
-          "itemId": "3",
-          "quantite": 1
         }
       ],
-      "total": 20,
-      "date": "2025-02-13T10:00:00Z",
-      "status": "en préparation"
+      "total": null,
+      "date": "2025-02-26T16:05:16.059Z",
+      "status": "reçue",
+      "livraison": {
+        "codePostal": "test",
+        "batiment": "test",
+        "salleTD": "test"
+      }
     }
   ]
 }

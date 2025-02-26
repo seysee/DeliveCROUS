@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native
 import { usePanier } from "../context/PanierContext";
 
 export default function PanierIcon({ navigation }) {
-    const { panier } = usePanier(); // Récupère les éléments du panier
-
+    const { panier } = usePanier();
     const renderPanierItem = ({ item }) => (
         <View style={styles.item}>
             <Text style={styles.itemText}>{item.name} - {item.price}€</Text>

@@ -16,15 +16,15 @@ interface AuthContextType {
     signOut: () => Promise<void>;
 }
 
-// Création du contexte
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-// Création du hook useAuth
+
 export function useAuth() {
     return useContext(AuthContext);
 }
 
-// Fournisseur d'authentification
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
@@ -68,5 +68,5 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
-// Exporte le contexte et le hook personnalisé
+
 export { AuthContext, useAuth };
