@@ -23,7 +23,7 @@ export default function ItemDetailsScreen() {
                 const data = await response.json();
                 setItem(data);
 
-                // Récupérer les plats suggérés de la même catégorie
+
                 const relatedResponse = await fetch(`http://localhost:5000/items?categorie=${data.categorie}`);
                 const relatedData = await relatedResponse.json();
                 setRelatedItems(relatedData.filter(dish => dish.id !== id));

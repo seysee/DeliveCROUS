@@ -1,17 +1,29 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, useWindowDimensions } from "react-native";
-import { useState } from "react";
 import { useRouter } from "expo-router";
 import FavoriButton from "../components/FavoriteButton";
 import PanierButton from "../components/PanierButton";
+import { usePanier } from "../context/PanierContext";
+import { useFavoris } from "../context/FavoriContext"; // Import du contexte des favoris
 
-export default function ItemCard({ item, onFavoriteToggle, isFavorited }) {
+export default function ItemCard({ item }) {
     const router = useRouter();
-    const [inCart, setInCart] = useState(false);
+    const { panier, ajouterAuPanier, supprimerDuPanier } = usePanier();
+    const { favoris, toggleFavori } = useFavoris();
     const { width } = useWindowDimensions();
     const numColumns = width < 600 ? 2 : width < 760 ? 3 : 4;
     const cardWidth = width / numColumns - 10;
 
     const descriptionPreview = item.description.length > 30 ? item.description.substring(0, 30) + "..." : item.description;
+    const inCart = panier.some(panierItem => panierItem.id === item.id);
+    const isFavorited = favoris.includes(item.id);
+
+    const toggleInCart = () => {
+        if (inCart) {
+            supprimerDuPanier(item.id);
+        } else {
+            ajouterAuPanier({ itemId: item.id, quantite: 1 });
+        }
+    };
 
     return (
         <TouchableOpacity
@@ -19,19 +31,15 @@ export default function ItemCard({ item, onFavoriteToggle, isFavorited }) {
             onPress={() => router.push(`/menu/${item.id}`)}
             accessibilityLabel={`Voir le plat ${item.name}`}
         >
-            <Image
-                source={{ uri: item.image }}
-                style={styles.image}
-                onError={(e) => console.log("Image non trouvée", e.nativeEvent.error)}
-            />
+            <Image source={{ uri: item.image }} style={styles.image} onError={() => console.log("Image non trouvée")} />
             <View style={styles.titleContainer}>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.price}>{item.price}</Text>
+                <Text style={styles.price}>{item.price} €</Text>
             </View>
             <View style={styles.descriptionContainer}>
                 <Text style={styles.description} numberOfLines={1}>{descriptionPreview}</Text>
-                <PanierButton inCart={inCart} toggleInCart={() => setInCart(!inCart)} />
-                <FavoriButton isFavorited={isFavorited} toggleIsFavorited={() => onFavoriteToggle(item.id)} />
+                <PanierButton inCart={inCart} toggleInCart={toggleInCart} />
+                <FavoriButton isFavorited={isFavorited} toggleIsFavorited={() => toggleFavori(item.id)} />
             </View>
         </TouchableOpacity>
     );
@@ -70,5 +78,3 @@ const styles = StyleSheet.create({
     },
     description: { fontSize: 12, color: "#666", flex: 1, marginRight: 8 },
 });
-
-

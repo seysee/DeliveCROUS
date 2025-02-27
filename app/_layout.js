@@ -1,6 +1,9 @@
 import { View, useWindowDimensions, StyleSheet } from "react-native";
 import NavigationBar from "../src/components/NavigationBar";
 import { AuthProvider } from "../src/context/AuthContext";
+import { PanierProvider } from "../src/context/PanierContext";
+import { FavoriProvider } from "../src/context/FavoriContext";
+
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 
@@ -20,6 +23,8 @@ export default function Layout() {
 
   return (
     <AuthProvider>
+      <PanierProvider>
+          <FavoriProvider>
       <View style={styles.container}>
         <Stack
           screenOptions={{
@@ -32,6 +37,8 @@ export default function Layout() {
         />
         <NavigationBar />
       </View>
+              </FavoriProvider>
+      </PanierProvider>
     </AuthProvider>
   );
 }
