@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import FavoriButton from "../components/FavoriteButton";
 import PanierButton from "../components/PanierButton";
 import { usePanier } from "../context/PanierContext";
-import { useFavoris } from "../context/FavoriContext"; // Import du contexte des favoris
+import { useFavoris } from "../context/FavoriContext";
 
 export default function ItemCard({ item }) {
     const router = useRouter();

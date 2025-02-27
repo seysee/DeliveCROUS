@@ -108,29 +108,18 @@
     },
     {
       "id": "2",
-      "email": "bobo@bobo.com",
-      "password": "bobo",
+      "email": "bob@bob.com",
+      "password": "bob",
       "nom": "bobo",
       "prenom": "baba",
       "photo": null,
       "favoris": [
-        "2",
-        "3"
+        "2"
       ]
     }
   ],
   "favoris": [],
-  "panier": [
-    {
-      "id": "b534",
-      "userId": "2",
-      "itemId": {
-        "itemId": "6",
-        "quantite": 1
-      },
-      "quantite": 1
-    }
-  ],
+  "panier": [],
   "commandes": [
     {
       "id": "b75d",
@@ -151,6 +140,27 @@
         "codePostal": "test",
         "batiment": "test",
         "salleTD": "test"
+      }
+    },
+    {
+      "id": "c928",
+      "userId": "1",
+      "items": [
+        {
+          "itemId": {
+            "itemId": "4",
+            "quantite": 1
+          },
+          "quantite": 2
+        }
+      ],
+      "total": null,
+      "date": "2025-02-27T15:35:22.229Z",
+      "status": "reçue",
+      "livraison": {
+        "codePostal": "test",
+        "batiment": "test",
+        "salleTD": "encore"
       }
     }
   ]

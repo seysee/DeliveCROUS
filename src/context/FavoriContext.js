@@ -10,7 +10,7 @@ export function useFavoris() {
 export const FavoriProvider = ({ children }) => {
     const { user } = useAuth();
     const [favoris, setFavoris] = useState([]);
-    const [loading, setLoading] = useState(true);  // Ajout du state de chargement
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadFavoris = async () => {
@@ -24,10 +24,10 @@ export const FavoriProvider = ({ children }) => {
                 } catch (error) {
                     console.error("Erreur lors du chargement des favoris:", error);
                 } finally {
-                    setLoading(false);  // On termine le chargement après la récupération
+                    setLoading(false);
                 }
             } else {
-                setLoading(false);  // Si pas d'utilisateur, on termine le chargement
+                setLoading(false);
             }
         };
 
@@ -38,8 +38,8 @@ export const FavoriProvider = ({ children }) => {
         if (!user) return;
 
         const newFavoris = favoris.includes(itemId)
-            ? favoris.filter(id => id !== itemId)  // Suppression si déjà en favori
-            : [...favoris, itemId];  // Ajout si pas encore en favori
+            ? favoris.filter(id => id !== itemId)
+            : [...favoris, itemId];
 
         setFavoris(newFavoris);
 
