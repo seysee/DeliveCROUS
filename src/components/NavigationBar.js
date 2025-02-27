@@ -6,7 +6,7 @@ import { useRef, useEffect } from "react";
 const menuItems = [
   { name: "Accueil", icon: "home", route: "/" },
   { name: "Commandes", icon: "list-alt", route: "/panier" },
-  { name: "Favoris", icon: "heart", route: "/favorites" },
+  { name: "Favoris", icon: "heart", route: "/favoris" },
   { name: "Compte", icon: "user", route: "/login" },
 ];
 

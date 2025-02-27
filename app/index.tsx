@@ -3,6 +3,8 @@ import ItemCard from "../src/components/ItemCard";
 import { AuthProvider } from "@/src/context/AuthContext";
 import { useEffect, useState } from "react";
 import { PanierProvider } from "@/src/context/PanierContext";
+import { FavoriProvider } from "@/src/context/FavoriContext";
+
 
 export default function Page() {
     const [dishes, setDishes] = useState([]);
@@ -35,6 +37,7 @@ export default function Page() {
     return (
         <AuthProvider>
             <PanierProvider>
+                <FavoriProvider>
                 <SafeAreaView style={styles.safeContainer}>
                     <View style={styles.container}>
                         <Text style={styles.title}>Menu</Text>
@@ -50,6 +53,7 @@ export default function Page() {
                         />
                     </View>
                 </SafeAreaView>
+                    </FavoriProvider>
             </PanierProvider>
         </AuthProvider>
     );
