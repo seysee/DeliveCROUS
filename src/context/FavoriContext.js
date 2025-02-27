@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import React, {createContext, useState, useContext, useEffect} from "react";
+import {useAuth} from "../context/AuthContext";
 
 const FavoriContext = createContext();
 
@@ -7,10 +7,10 @@ export function useFavoris() {
     return useContext(FavoriContext);
 }
 
-export const FavoriProvider = ({ children }) => {
-    const { user } = useAuth();
+export const FavoriProvider = ({children}) => {
+    const {user} = useAuth();
     const [favoris, setFavoris] = useState([]);
-    const [loading, setLoading] = useState(true);  // Ajout du state de chargement
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadFavoris = async () => {
@@ -24,10 +24,10 @@ export const FavoriProvider = ({ children }) => {
                 } catch (error) {
                     console.error("Erreur lors du chargement des favoris:", error);
                 } finally {
-                    setLoading(false);  // On termine le chargement après la récupération
+                    setLoading(false);
                 }
             } else {
-                setLoading(false);  // Si pas d'utilisateur, on termine le chargement
+                setLoading(false);
             }
         };
 
@@ -38,16 +38,16 @@ export const FavoriProvider = ({ children }) => {
         if (!user) return;
 
         const newFavoris = favoris.includes(itemId)
-            ? favoris.filter(id => id !== itemId)  // Suppression si déjà en favori
-            : [...favoris, itemId];  // Ajout si pas encore en favori
+            ? favoris.filter(id => id !== itemId)
+            : [...favoris, itemId];
 
         setFavoris(newFavoris);
 
         try {
             await fetch(`http://localhost:5000/users/${user.id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ favoris: newFavoris }),
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({favoris: newFavoris}),
             });
         } catch (error) {
             console.error("Erreur lors de la mise à jour des favoris:", error);
@@ -55,7 +55,7 @@ export const FavoriProvider = ({ children }) => {
     };
 
     return (
-        <FavoriContext.Provider value={{ favoris, toggleFavori, loading }}>
+        <FavoriContext.Provider value={{favoris, toggleFavori, loading}}>
             {children}
         </FavoriContext.Provider>
     );
