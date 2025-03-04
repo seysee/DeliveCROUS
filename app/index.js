@@ -4,7 +4,6 @@ import { AuthProvider } from "@/src/context/AuthContext";
 import { useEffect, useState } from "react";
 import { PanierProvider } from "@/src/context/PanierContext";
 import { FavoriProvider } from "@/src/context/FavoriContext";
-
 import { useFonts } from "expo-font";
 
 export default function Page() {
@@ -43,22 +42,22 @@ export default function Page() {
         <AuthProvider>
             <PanierProvider>
                 <FavoriProvider>
-                <SafeAreaView style={styles.safeContainer}>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Menu</Text>
-                        <FlatList
-                            key={`numColumns-${numColumns}`} //
-                            data={dishes}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => <ItemCard item={item} />}
-                            numColumns={numColumns}
-                            columnWrapperStyle={Platform.OS === 'web' ? styles.row : null}
-                            contentContainerStyle={{ paddingBottom: 20 }}
-                            showsVerticalScrollIndicator={false}
-                        />
-                    </View>
-                </SafeAreaView>
-                    </FavoriProvider>
+                    <SafeAreaView style={styles.safeContainer}>
+                        <View style={[styles.container, width >= 1200 && { margin: 20, paddingLeft: 15 }]}>
+                            <Text style={styles.title}>Menu</Text>
+                            <FlatList
+                                key={`numColumns-${numColumns}`} //
+                                data={dishes}
+                                keyExtractor={(item) => item.id.toString()}
+                                renderItem={({ item }) => <ItemCard item={item} />}
+                                numColumns={numColumns}
+                                columnWrapperStyle={Platform.OS === 'web' ? styles.row : null}
+                                contentContainerStyle={{ paddingBottom: 20 }}
+                                showsVerticalScrollIndicator={false}
+                            />
+                        </View>
+                    </SafeAreaView>
+                </FavoriProvider>
             </PanierProvider>
         </AuthProvider>
     );
@@ -71,15 +70,14 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: "#fff",
-        marginLeft: 15,
     },
     title: {
         fontFamily: "Poppins-Bold",
         fontSize: 32,
         fontWeight: "bold",
         marginBottom: 10,
+        marginTop: 10,
         textAlign: "center",
     },
     row: {

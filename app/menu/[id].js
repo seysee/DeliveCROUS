@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import {View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import PanierButton from "@/src/components/PanierButton";
 import FavoriButton from "@/src/components/FavoriteButton";
@@ -31,7 +31,6 @@ export default function ItemDetailsScreen() {
 
                 const data = await response.json();
                 setItem(data);
-
 
                 const relatedResponse = await fetch(`http://localhost:5000/items?categorie=${data.categorie}`);
                 const relatedData = await relatedResponse.json();
@@ -66,7 +65,7 @@ export default function ItemDetailsScreen() {
     }
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <ScrollView style={[styles.container, width >= 1200 && { marginLeft: 20 }]} contentContainerStyle={styles.contentContainer}>
             <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                 <Text style={styles.backText}>← Retour</Text>
             </TouchableOpacity>
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 30,
         paddingBottom: 30,
-        paddingLeft: 40,
         paddingRight: 20,
     },
     contentContainer: {
@@ -147,7 +145,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 10,
     },
     buttonContainer: {
         flexDirection: "row",
