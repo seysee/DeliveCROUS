@@ -2,30 +2,30 @@ import React, { useRef } from "react";
 import { Pressable, Text, StyleSheet, useWindowDimensions, Animated } from "react-native";
 
 const Button = ({ title, onPress, style }) => {
-    const { width } = useWindowDimensions();
-    const isSmallScreen = width < 400;
-    const hoverAnim = useRef(new Animated.Value(0)).current;
+const { width } = useWindowDimensions();
+const isSmallScreen = width < 400;
+const hoverAnim = useRef(new Animated.Value(0)).current;
 
-    const handleMouseEnter = () => {
-        Animated.timing(hoverAnim, {
-            toValue: 1,
-            duration: 200,
-            useNativeDriver: false,
-        }).start();
-    };
+const handleMouseEnter = () => {
+    Animated.timing(hoverAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: false,
+    }).start();
+};
 
-    const handleMouseLeave = () => {
-        Animated.timing(hoverAnim, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: false,
-        }).start();
-    };
+const handleMouseLeave = () => {
+    Animated.timing(hoverAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+    }).start();
+};
 
-    const backgroundColor = hoverAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["#e01020", "#c00d1a"],
-    });
+const backgroundColor = hoverAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#e01020", "#c00d1a"],
+});
 
     return (
         <Pressable
@@ -49,9 +49,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 25,
         backgroundColor: "#e01020",
-        shadowOpacity: 0.4,
-        shadowOffset: { width: 0, height: 4 },
-        shadowRadius: 5,
+        shadowColor: "rgba(0, 0, 0, 0.3)",
+        shadowOpacity: 0.25,
+        shadowOffset: { width: 0, height: 8 },
+        shadowRadius: 10,
+        elevation: 6,
         marginBottom: 10,
     },
     text: {

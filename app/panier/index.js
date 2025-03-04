@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, FlatList, Image, TouchableOpacity, StyleSheet, TextInput, Button } from "react-native";
+import { ScrollView, View, Text, FlatList, Image, StyleSheet, ActivityIndicator, useWindowDimensions } from "react-native";
 import { usePanier } from "../../src/context/PanierContext";
 import { useRouter } from "expo-router";
-
+import Button from "../../src/components/Button";
+import Input from "../../src/components/Input";
 
 export default function PanierScreen() {
     const { panier, mettreAJourQuantite, livraison, mettreAJourLivraison, passerCommande } = usePanier();
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0);
     const router = useRouter();
-
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -57,75 +58,45 @@ export default function PanierScreen() {
     };
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-            <View style={styles.container}>
-                <Text style={styles.title}>Mon Panier</Text>
-
-                <FlatList
-                    data={items}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.itemContainer}>
-                            <Image source={{ uri: item.image }} style={styles.image} />
-                            <View style={styles.details}>
-                                <Text style={styles.name}>{item.name}</Text>
-                                <Text>Prix: {item.price}€</Text>
-                                <View style={styles.quantityContainer}>
-                                    <TouchableOpacity onPress={() => handleQuantiteChange(item.id, -1)} style={styles.button}>
-                                        <Text style={styles.buttonText}>-</Text>
-                                    </TouchableOpacity>
-                                    <Text style={styles.quantite}>Quantité: {item.quantite}</Text>
-                                    <TouchableOpacity onPress={() => handleQuantiteChange(item.id, 1)} style={styles.button}>
-                                        <Text style={styles.buttonText}>+</Text>
-                                    </TouchableOpacity>
+        <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
+            <Text style={styles.title}>Mon Panier</Text>
+            <View style={[styles.rowContainer, width > 768 && styles.rowContainerDesktop]}>
+                <View style={[styles.itemsContainer, width > 768 && styles.itemsContainerDesktop]}>
+                    <Text style={styles.sectionTitle}>Articles dans ton Panier</Text>
+                    <FlatList
+                        data={items}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <View style={styles.itemContainer}>
+                                <Image source={{ uri: item.image }} style={styles.image} />
+                                <View style={styles.details}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text>{item.price}€</Text>
+                                    <View style={styles.quantityContainer}>
+                                        <Button title="-" onPress={() => handleQuantiteChange(item.id, -1)} style={styles.smallButton} />
+                                        <Text style={styles.quantite}>{item.quantite}</Text>
+                                        <Button title="+" onPress={() => handleQuantiteChange(item.id, 1)} style={styles.smallButton} />
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    )}
-                />
-
-                <View style={styles.totalContainer}>
-                    <Text style={styles.totalText}>Total: {total.toFixed(2)}€</Text>
+                        )}
+                    />
+                    <View style={styles.totalContainer}>
+                        <Text style={styles.totalText}>Total: {total.toFixed(2)}€</Text>
+                    </View>
                 </View>
 
-                <View style={styles.formContainer}>
-                    <Text style={styles.title}>Adresse de Livraison</Text>
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Code Postal"
-                        value={livraison.codePostal}
-                        onChangeText={(text) => mettreAJourLivraison("codePostal", text)}
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Bâtiment"
-                        value={livraison.batiment}
-                        onChangeText={(text) => mettreAJourLivraison("batiment", text)}
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Salle TD"
-                        value={livraison.salleTD}
-                        onChangeText={(text) => mettreAJourLivraison("salleTD", text)}
-                    />
-
-                    <Button title="Passer commande" onPress={passerCommande} />
+                <View style={[styles.formContainer, width > 768 && styles.formContainerDesktop]}>
+                    <Text style={styles.sectionTitle2}>Où veux-tu te faire livrer ?</Text>
+                    <Input placeholder="Code Postal" value={livraison.codePostal} onChangeText={(text) => mettreAJourLivraison("codePostal", text)} />
+                    <Input placeholder="Bâtiment" value={livraison.batiment} onChangeText={(text) => mettreAJourLivraison("batiment", text)} />
+                    <Input placeholder="Salle TD" value={livraison.salleTD} onChangeText={(text) => mettreAJourLivraison("salleTD", text)} />
+                    <Button title="Passer commande" onPress={passerCommande} style={styles.buttonDesktop} />
+                    <View style={styles.buttonContainer}>
+                        <Button title="📦 Commandes en cours" onPress={() => router.push("/CommandeEnCours")} />
+                        <Button title="📜 Historique" onPress={() => router.push("/HistoriqueCommandes")} />
+                    </View>
                 </View>
-
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.secondaryButton} onPress={() => router.push("/CommandeEnCours")}>
-                        <Text style={styles.buttonText}>📦 Commandes en cours</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.secondaryButton} onPress={() => router.push("/HistoriqueCommandes")}>
-                        <Text style={styles.buttonText}>📜 Historique</Text>
-                    </TouchableOpacity>
-
-                </View>
-
             </View>
         </ScrollView>
     );
@@ -134,18 +105,38 @@ export default function PanierScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        paddingHorizontal: 20,
+        paddingTop: 30,
     },
     title: {
-        fontSize: 24,
-        fontWeight: "bold",
+        fontSize: 28,
+        fontFamily: "Poppins-Bold",
         marginBottom: 20,
-        textAlign: "center"
+        textAlign: "center",
+    },
+    sectionTitle: {
+        fontSize: 15,
+        fontFamily: "Poppins-Regular",
+        marginBottom: 10,
+        marginTop: 20,
+        marginLeft: 15,
+        color: '#757575',
+    },
+    sectionTitle2: {
+        fontSize: 15,
+        fontFamily: "Poppins-Regular",
+        marginBottom: 10,
+        marginTop: 20,
+        color: '#757575',
     },
     itemContainer: {
         flexDirection: "row",
-        marginBottom: 20
+        backgroundColor: "#f9f9f9",
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 15,
+        marginLeft: 15,
     },
     image: {
         width: 80,
@@ -154,66 +145,78 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     details: {
-        justifyContent: "center"
+        justifyContent: "center",
+        flex:1,
+        gap: 10,
     },
     name: {
         fontSize: 18,
-        fontWeight: "bold"
+        fontFamily: "Poppins-Medium",
+    },
+    price: {
+        fontSize: 16,
+        color: "#e01020",
+        fontFamily: "Poppins-Regular",
     },
     quantityContainer: {
         flexDirection: "row",
-        alignItems: "center"
-    },
-    button: {
-        padding: 5,
-        backgroundColor: "#ddd",
-        margin: 5,
-        borderRadius: 5
-    },
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "bold"
+        alignItems: "center",
     },
     quantite: {
-        fontSize: 16
+        fontSize: 16,
+        padding: 3,
     },
     totalContainer: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: "#eee",
-        borderRadius: 5,
-        alignItems: "center"
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
     },
     totalText: {
         fontSize: 18,
-        fontWeight: "bold"
+        fontFamily: "Poppins-Medium",
+    },
+    loader: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buttonDesktop: {
+        maxWidth: 300,
+        alignSelf: "center",
+    },
+    rowContainer: {
+        flexDirection: 'column',
+    },
+    rowContainerDesktop: {
+        flexDirection: 'row',
+    },
+    itemsContainer: {
+        flex: 1,
+    },
+    itemsContainerDesktop: {
+        flex: 1,
+        paddingRight: 20,
     },
     formContainer: {
-        marginTop: 30,
-        padding: 20,
-        backgroundColor: "#f9f9f9",
-        borderRadius: 10
+        backgroundColor: "#fff",
+        borderRadius: 10,
     },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 5,
-        padding: 10,
-        marginVertical: 5
+    formContainerDesktop: {
+        flex: 1,
+        maxWidth: "50%",
+        alignSelf: "center",
     },
     buttonContainer: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        marginTop: 20
-    },
-    secondaryButton: {
-        padding: 10,
-        backgroundColor: "#007bff",
-        borderRadius: 5,
+        flexDirection: "column",
         alignItems: "center",
-        width: "45%"
     },
-
-
+    buttonDesktop: {
+        maxWidth: 300,
+        alignSelf: "center",
+    },
+    smallButton: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        minWidth: 30,
+        borderRadius: 50,
+    },
 });

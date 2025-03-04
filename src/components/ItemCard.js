@@ -1,5 +1,6 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
+import { useFonts } from "expo-font";
 import FavoriButton from "../components/FavoriteButton";
 import PanierButton from "../components/PanierButton";
 import { usePanier } from "../context/PanierContext";
@@ -25,13 +26,28 @@ export default function ItemCard({ item }) {
         }
     };
 
+    const [fontsLoaded] = useFonts({
+        "Poppins-Thin": require("../../assets/fonts/Poppins-Thin.ttf"),
+        "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Medium": require("../../assets/fonts/Poppins-Medium.ttf"),
+        "Poppins-Bold": require("../../assets/fonts/Poppins-Bold.ttf"),
+    });
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <TouchableOpacity
             style={[styles.card, { width: cardWidth }]}
             onPress={() => router.push(`/menu/${item.id}`)}
             accessibilityLabel={`Voir le plat ${item.name}`}
         >
-            <Image source={{ uri: item.image }} style={styles.image} onError={() => console.log("Image non trouvée")} />
+            <Image
+                source={{ uri: item.image }}
+                style={styles.image}
+                onError={() => console.log("Image non trouvée")}
+            />
             <View style={styles.titleContainer}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.price}>{item.price} €</Text>
@@ -49,11 +65,15 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: "#f9f9f9",
         borderRadius: 10,
-        padding: 10,
+        padding: 12,
         marginBottom: 15,
         marginHorizontal: 5,
         alignItems: "center",
-        elevation: 2,
+        elevation: 3,
+        shadowColor: "rgba(0, 0, 0, 0.2)",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
     },
     image: {
         width: "100%",
@@ -67,8 +87,16 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 5,
     },
-    name: { fontSize: 16, fontWeight: "bold" },
-    price: { fontSize: 14, color: "gray" },
+    name: {
+        fontSize: 16,
+        fontFamily: "Poppins-Bold",
+        flexShrink: 1
+    },
+    price: {
+        fontSize: 14,
+        fontFamily: "Poppins-Medium",
+        color: "#e01020"
+    },
     descriptionContainer: {
         flexDirection: "row",
         alignItems: "center",
@@ -76,5 +104,12 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 5,
     },
-    description: { fontSize: 12, color: "#666", flex: 1, marginRight: 8 },
+    description: {
+        fontSize: 12,
+        fontFamily: "Poppins-Regular",
+        color: "#666",
+        flex: 1,
+        marginRight: 8
+    },
 });
+

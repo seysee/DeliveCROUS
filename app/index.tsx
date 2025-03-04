@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { PanierProvider } from "@/src/context/PanierContext";
 import { FavoriProvider } from "@/src/context/FavoriContext";
 
+import { useFonts } from "expo-font";
 
 export default function Page() {
     const [dishes, setDishes] = useState([]);
@@ -16,6 +17,10 @@ export default function Page() {
     } else if (width >= 800) {
         numColumns = 2;
     }
+
+    const [fontsLoaded] = useFonts({
+        "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    });
 
     useEffect(() => {
         const fetchDishes = async () => {
@@ -68,8 +73,10 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: "#fff",
+        marginLeft: 15,
     },
     title: {
+        fontFamily: "Poppins-Bold",
         fontSize: 32,
         fontWeight: "bold",
         marginBottom: 10,

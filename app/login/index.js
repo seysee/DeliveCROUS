@@ -229,7 +229,6 @@ const styles = StyleSheet.create({
     profileTitle: {
         fontSize: 28,
         fontFamily: "Poppins-Bold",
-        color: "#e01020",
     },
     profileSubtitle: {
         fontSize: 16,
