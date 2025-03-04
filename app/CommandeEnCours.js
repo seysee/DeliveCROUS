@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useAuth } from "../src/context/AuthContext";
 import { usePanier } from "../src/context/PanierContext";
+import Button from "../src/components/Button";
+import { useRouter } from "expo-router";
 
 export default function CommandesEnCours() {
     const { user } = useAuth();
     const { confirmerReception } = usePanier();
     const [commandes, setCommandes] = useState([]);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchCommandes = async () => {
@@ -15,7 +18,6 @@ export default function CommandesEnCours() {
                 if (!response.ok) throw new Error("Erreur de récupération des commandes");
 
                 const data = await response.json();
-
 
                 const commandesAvecDetails = await Promise.all(data.map(async (commande) => {
                     const itemsDetail = await Promise.all(commande.items.map(async (item) => {
@@ -43,6 +45,10 @@ export default function CommandesEnCours() {
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                <Text style={styles.backText}>← Retour</Text>
+            </TouchableOpacity>
+
             <Text style={styles.title}>📦 Commandes en cours</Text>
             {commandes.length === 0 ? (
                 <Text style={styles.emptyText}>Aucune commande en cours</Text>
@@ -52,8 +58,10 @@ export default function CommandesEnCours() {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <View style={styles.commandeItem}>
-                            <Text>Commande #{item.id}</Text>
-                            <Text>Statut: {item.status}</Text>
+                            <Text style={styles.commandeTitle}>Commande #{item.id}</Text>
+                            <Text style={[styles.statusText, { color: item.status === 'en attente' ? '#ff9800' : '#4caf50' }]}>
+                                Statut : {item.status}
+                            </Text>
                             <FlatList
                                 data={item.items}
                                 keyExtractor={(subItem) => subItem.id.toString()}
@@ -62,19 +70,13 @@ export default function CommandesEnCours() {
                                         <Image source={{ uri: item.image }} style={styles.image} />
                                         <View style={styles.details}>
                                             <Text style={styles.name}>{item.name}</Text>
-                                            <Text>Prix: {item.price}€</Text>
-                                            <Text>Quantité: {item.quantite}</Text>
+                                            <Text style={styles.price}>Prix : <Text style={styles.priceAmount}>{item.price}€</Text></Text>
+                                            <Text style={styles.quantity}>Quantité : {item.quantite}</Text>
                                         </View>
                                     </View>
                                 )}
                             />
-
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => handleCommandeRecue(item.id)}
-                            >
-                                <Text style={styles.buttonText}>Commande reçue</Text>
-                            </TouchableOpacity>
+                            <Button title="Commande reçue" onPress={() => handleCommandeRecue(item.id)} />
                         </View>
                     )}
                 />
@@ -83,29 +85,40 @@ export default function CommandesEnCours() {
     );
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
     },
     title: {
-        fontSize: 24,
-        fontWeight: "bold",
+        fontSize: 28,
+        fontFamily: "Poppins-Bold",
         marginBottom: 20,
-        textAlign: "center"
+        textAlign: "center",
+        color: "#333333"
     },
     emptyText: {
         textAlign: "center",
         fontSize: 16,
-        color: "gray"
+        color: "#999999",
+        fontFamily: "Poppins-Regular",
     },
     commandeItem: {
         padding: 15,
+        marginLeft: 15,
+    },
+    commandeTitle: {
+        fontSize: 18,
+        fontFamily: "Poppins-Medium",
         marginBottom: 10,
-        backgroundColor: "#f1f1f1",
-        borderRadius: 10
+        color: "#333333",
+    },
+    statusText: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        marginBottom: 15,
+        color: "#4caf50",
     },
     itemContainer: {
         flexDirection: "row",
@@ -122,17 +135,28 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 18,
-        fontWeight: "bold"
+        fontFamily: "Poppins-Medium",
+        color: "#333333",
     },
-    button: {
-        padding: 10,
-        backgroundColor: "#4CAF50",
-        borderRadius: 5,
-        marginTop: 10
-    },
-    buttonText: {
-        color: "#fff",
+    price: {
         fontSize: 16,
-        fontWeight: "bold"
-    }
+        fontFamily: "Poppins-Regular",
+    },
+    priceAmount: {
+        fontFamily: "Poppins-Medium",
+    },
+    quantity: {
+        fontSize: 14,
+        fontFamily: "Poppins-Regular",
+        color: "#757575",
+    },
+    backButton: {
+        marginBottom: 15,
+        marginLeft: 15,
+    },
+    backText: {
+        fontSize: 18,
+        color: "#e01020",
+        fontFamily: "Poppins-Bold",
+    },
 });

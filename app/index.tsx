@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: "#fff",
+        marginLeft: 15,
     },
     title: {
         fontFamily: "Poppins-Bold",

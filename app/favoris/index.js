@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from "react-native";
-import {useFavoris} from "../../src/context/FavoriContext";
-import {useRouter} from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
+import { useFavoris } from "../../src/context/FavoriContext";
+import { useRouter } from "expo-router";
 
 export default function FavorisScreen() {
-    const {favoris, toggleFavori, loading} = useFavoris();
+    const { favoris, toggleFavori, loading } = useFavoris();
     const [items, setItems] = useState([]);
     const router = useRouter();
 
@@ -29,7 +29,7 @@ export default function FavorisScreen() {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#007bff"/>
-                <Text>Chargement des favoris...</Text>
+                <Text style={styles.loadingText}>Chargement des favoris...</Text>
             </View>
         );
     }
@@ -43,12 +43,12 @@ export default function FavorisScreen() {
                 <FlatList
                     data={items}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({item}) => (
+                    renderItem={({ item }) => (
                         <TouchableOpacity style={styles.item} onPress={() => router.push(`/menu/${item.id}`)}>
-                            <Image source={{uri: item.image}} style={styles.image}/>
+                            <Image source={{ uri: item.image }} style={styles.image}/>
                             <View style={styles.details}>
                                 <Text style={styles.itemText}>{item.name}</Text>
-                                <Text style={styles.price}>{item.price}€</Text>
+                                <Text style={styles.price}>Prix : <Text style={styles.priceAmount}>{item.price}€</Text></Text>
                                 <Text style={styles.description}>{item.description}</Text>
                             </View>
                             <TouchableOpacity onPress={() => toggleFavori(item.id)} style={styles.removeButton}>
@@ -63,72 +63,77 @@ export default function FavorisScreen() {
 }
 
 const styles = StyleSheet.create({
-    container:
-        {
-            flex: 1,
-            padding: 20,
-            backgroundColor: "#fff"
-        },
-    title:
-        {
-            fontSize: 24,
-            fontWeight: "bold",
-            marginBottom: 10
-        },
-    emptyMessage:
-        {
-            fontSize: 16,
-            color: "gray",
-            textAlign: "center",
-            marginTop: 20
-        },
-    item:
-        {
-            flexDirection: "row",
-            alignItems: "center",
-            padding: 10,
-            borderBottomWidth: 1,
-            borderColor: "#ddd"
-        },
-    image:
-        {
-            width: 80,
-            height: 80,
-            borderRadius: 10,
-            marginRight: 10
-        },
-    details:
-        {
-            flex: 1
-        },
-    itemText:
-        {
-            fontSize: 18,
-            fontWeight: "bold"
-        },
-    price:
-        {
-            fontSize: 16,
-            color: "#007bff"
-        },
-    description:
-        {
-            fontSize: 14,
-            color: "#666"
-        },
-    removeButton:
-        {
-            padding: 5
-        },
-    removeText:
-        {
-            fontSize: 18,
-            color: "red"
-        },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingHorizontal: 20,
+        paddingTop: 30,
+        marginLeft: 15,
+    },
+    title: {
+        fontSize: 28,
+        fontFamily: "Poppins-Bold",
+        marginBottom: 20,
+        textAlign: "center",
+        color: "#333333"
+    },
+    emptyMessage: {
+        fontSize: 16,
+        color: "gray",
+        textAlign: "center",
+        marginTop: 20,
+        fontFamily: "Poppins-Regular"
+    },
+    item: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        borderBottomWidth: 1,
+        borderColor: "#ddd"
+    },
+    image: {
+        width: 80,
+        height: 80,
+        borderRadius: 10,
+        marginRight: 10
+    },
+    details: {
+        flex: 1
+    },
+    itemText: {
+        fontSize: 18,
+        fontFamily: "Poppins-Bold",
+    },
+    price: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+    },
+    priceAmount: {
+        fontFamily: "Poppins-Medium",
+    },
+    description: {
+        fontSize: 14,
+        color: "#666",
+        fontFamily: "Poppins-Regular"
+    },
+    removeButton: {
+        padding: 5
+    },
+    removeText: {
+        fontSize: 18,
+        color: "red",
+        fontFamily: "Poppins-Medium"
+    },
     loadingContainer: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#fff"
+    },
+    loadingText: {
+        fontFamily: "Poppins-Regular",
+        marginTop: 10,
+        fontSize: 16,
+        color: "#007bff"
     },
 });
