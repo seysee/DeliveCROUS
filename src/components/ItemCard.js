@@ -1,3 +1,36 @@
+/**
+ * **ItemCard** : Composant représentant une carte d'élément (produit, plat, etc.) affichée dans une liste ou une grille.
+ * Ce composant affiche les informations d'un article, telles que son image, son nom, son prix, une courte description, et inclut des boutons pour l'ajouter au panier ou le marquer comme favori.
+ *
+ * **Fonctionnalités principales :**
+ * 1. **Affichage des détails de l'article** :
+ *    - L'image, le nom, le prix et la description de l'élément sont affichés dans une carte avec un style visuellement agréable.
+ * 2. **Navigation vers une page de détails** :
+ *    - Lorsqu'un utilisateur appuie sur l'élément, il est redirigé vers une page de détails de l'article.
+ * 3. **Gestion du panier** :
+ *    - Les utilisateurs peuvent ajouter ou supprimer l'article du panier, et le bouton correspondant reflète l'état actuel (ajouté ou non).
+ * 4. **Gestion des favoris** :
+ *    - Les utilisateurs peuvent ajouter ou retirer l'article de leurs favoris, et l'état du bouton est mis à jour en fonction de l'article favori.
+ *
+ * **Composants utilisés :**
+ * - `useWindowDimensions` : Permet d'adapter la largeur de la carte en fonction de la taille de l'écran de l'appareil.
+ * - `useRouter` : Utilisé pour naviguer vers la page de détails de l'élément lorsqu'il est cliqué.
+ * - `FavoriButton` et `PanierButton` : Composants personnalisés qui permettent de gérer les interactions avec les favoris et le panier.
+ *
+ * **Props :**
+ * - `item` : Un objet représentant un élément, qui contient des informations comme l'id, le nom, la description, l'image, le prix, etc.
+ *
+ *
+ * **État dynamique :**
+ * - `inCart` : Détermine si l'élément est actuellement dans le panier de l'utilisateur.
+ * - `isFavorited` : Indique si l'élément est actuellement favori pour l'utilisateur.
+ *
+ * **Utilisation de contextes :**
+ * - `usePanier` : Permet de gérer l'état du panier, y compris l'ajout et la suppression d'éléments.
+ * - `useFavoris` : Permet de gérer l'état des favoris, avec une fonction pour ajouter ou retirer un élément des favoris.
+ *
+*/
+
 import { View, Text, Image, TouchableOpacity, StyleSheet, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { useFonts } from "expo-font";

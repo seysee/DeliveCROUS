@@ -1,3 +1,43 @@
+/**
+ * PanierContext - Gestion du panier et des commandes utilisateur
+ *
+ * Ce fichier gère un contexte de panier d'achat (`PanierContext`) pour un utilisateur connecté. Il permet à l'utilisateur de :
+ * 1. Ajouter des articles au panier.
+ * 2. Mettre à jour la quantité d'articles dans le panier.
+ * 3. Supprimer des articles du panier.
+ * 4. Passer une commande avec les articles du panier.
+ * 5. Gérer les informations de livraison.
+ * 6. Suivre les commandes en attente et les historiques de commandes.
+ *
+ * **Composants clés :**
+ * - `PanierContext` : Contexte React qui fournit l'état du panier (`panier`), les commandes (`commandes`), l'historique des commandes (`historique`),
+ *   et des fonctions permettant d'ajouter, de supprimer ou de mettre à jour des articles dans le panier, de passer une commande, et de gérer les informations de livraison.
+ * - `usePanier` : Hook personnalisé permettant de consommer le `PanierContext` dans n'importe quel composant enfant.
+ * - `PanierProvider` : Composant fournisseur du contexte du panier qui enveloppe l'application et rend l'état du panier accessible.
+ *
+ * **Fonctionnalités principales :**
+ * 1. **Chargement du panier et des commandes** : Lorsqu'un utilisateur est connecté, les données du panier et des commandes sont récupérées depuis une API externe
+ *    (via `fetch` sur `localhost:5000/panier` et `localhost:5000/commandes`).
+ * 2. **Ajout d'articles au panier** : L'utilisateur peut ajouter un article au panier, en vérifiant si l'article existe déjà dans le panier.
+ * 3. **Modification de la quantité** : L'utilisateur peut mettre à jour la quantité d'un article dans le panier ou le supprimer si la quantité devient 0.
+ * 4. **Passage de commande** : Lorsque l'utilisateur passe commande, le contenu du panier est transformé en une commande et envoyée à l'API. Les articles sont ensuite supprimés du panier.
+ * 5. **Suivi des commandes** : Les commandes en attente sont séparées des commandes historiques, et l'utilisateur peut marquer une commande comme reçue.
+ * 6. **Mise à jour des informations de livraison** : L'utilisateur peut entrer ou mettre à jour les informations de livraison, comme le code postal, le bâtiment, et la salle TD.
+ *
+ * **Données manipulées :**
+ * - `panier` : Un tableau contenant les articles ajoutés au panier, chacun avec un `itemId`, `quantite`, et `price`.
+ * - `commandes` : Un tableau contenant les commandes en cours de l'utilisateur (avec un statut "en attente").
+ * - `historique` : Un tableau contenant les commandes historiques (avec un statut "reçue").
+ * - `livraison` : Un objet contenant les informations de livraison (codePostal, batiment, salleTD).
+ *
+ *
+ * **Dépendances :**
+ * - `useAuth` : Hook provenant du contexte d'authentification pour obtenir les informations sur l'utilisateur connecté.
+ * - `fetch` : Fonction utilisée pour envoyer des requêtes HTTP au serveur pour récupérer ou mettre à jour les données du panier et des commandes.
+ * - `router` : Utilisé pour naviguer vers la page de commande en cours (`/CommandeEnCours`) après un passage de commande réussi.
+ *
+ */
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import {router} from "expo-router";

@@ -1,3 +1,34 @@
+/**
+ * PanierScreen Component
+ *
+ * Le composant `PanierScreen` est l'écran principal du panier dans l'application.
+ * Il permet à l'utilisateur de visualiser les articles ajoutés à son panier, de
+ * modifier les quantités d'articles, de calculer le total de la commande et de
+ * saisir une adresse de livraison avant de finaliser la commande.
+ *
+ * **Fonctionnalités principales :**
+ * 1. **Affichage des articles dans le panier** : Liste des articles avec leur nom, prix, quantité et image.
+ * 2. **Modification des quantités d'articles** : Les utilisateurs peuvent ajuster la quantité d'un article.
+ * 3. **Calcul dynamique du total** : Le total du panier est mis à jour automatiquement en fonction des modifications des quantités.
+ * 4. **Saisie de l'adresse de livraison** : Les utilisateurs peuvent entrer des informations d'adresse, telles que le code postal, le bâtiment et la salle TD.
+ * 5. **Navigation** : L'utilisateur peut naviguer vers l'écran des commandes en cours ou l'historique des commandes via des boutons.
+ *
+ * **Hooks utilisés :**
+ * - `useState`: Gère les états locaux du panier, des articles et du total.
+ * - `useEffect`: Effectue des actions lorsque les états changent, comme récupérer les articles du serveur et recalculer le total.
+ * - `usePanier`: Hook personnalisé qui permet d'accéder aux données du panier et de les mettre à jour (quantité des articles, adresse de livraison).
+ * - `useRouter`: Permet de gérer la navigation entre les différentes pages de l'application.
+ *
+ * **Flux de données et logique de fonctionnement :**
+ * - Lorsque le panier est mis à jour (ajout ou suppression d'articles), les articles sont récupérés depuis le serveur.
+ * - Le total de la commande est calculé en fonction des quantités et des prix des articles présents dans le panier.
+ * - Les informations de livraison peuvent être modifiées via des champs de saisie (code postal, bâtiment, salle TD).
+ * - L'utilisateur peut passer une commande en appuyant sur le bouton "Passer commande" qui appelle la fonction `passerCommande`.
+ *
+ * **Dépendances :**
+ * - Ce composant dépend de l'API d'un serveur local (`http://localhost:5000/items`) pour récupérer la liste des articles.
+ */
+
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, FlatList, Image, StyleSheet, ActivityIndicator, useWindowDimensions } from "react-native";
 import { usePanier } from "../../src/context/PanierContext";

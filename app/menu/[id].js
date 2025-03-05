@@ -1,3 +1,26 @@
+/**
+ * ItemDetailsScreen Component
+ *
+ * Cette page affiche les détails d'un plat sélectionné, y compris son nom, son prix,
+ * sa description, ses allergènes et une image associée. Elle permet également
+ * de revenir à la page précédente et de voir des plats similaires suggérés.
+ *
+ * - Utilise `useLocalSearchParams` de `expo-router` pour récupérer l'ID de l'élément sélectionné.
+ * - Récupère les données de l'élément via un appel API à `http://localhost:5000/items/{id}`.
+ * - Récupère des éléments liés à la même catégorie que le plat actuel via un autre appel API.
+ * - Affiche les allergènes sous forme de liste et gère le cas où il n'y en a pas.
+ * - Affiche un indicateur de chargement lors de la récupération des données.
+ * - En cas d'erreur, un message d'erreur est affiché à l'utilisateur.
+ * - Affiche une liste horizontale de plats similaires (plutôt que de simplement lister les plats).
+ *
+ * Composants :
+ * - `PanierButton` : Permet à l'utilisateur d'ajouter l'élément au panier.
+ * - `FavoriButton` : Permet à l'utilisateur d'ajouter l'élément aux favoris.
+ * - `ItemCard` : Affiche un plat suggéré dans une carte de manière horizontale dans la section "Plats Suggérés".
+ *
+ */
+import { useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator } from "react-native";
 import { useEffect, useState, useMemo } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
