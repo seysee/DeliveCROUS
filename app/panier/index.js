@@ -60,44 +60,50 @@ export default function PanierScreen() {
     return (
         <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
             <Text style={styles.title}>Mon Panier</Text>
-            <View style={[styles.rowContainer, width > 768 && styles.rowContainerDesktop]}>
-                <View style={[styles.itemsContainer, width > 768 && styles.itemsContainerDesktop]}>
-                    <Text style={styles.sectionTitle}>Articles dans ton Panier</Text>
-                    <FlatList
-                        data={items}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <View style={styles.itemContainer}>
-                                <Image source={{ uri: item.image }} style={styles.image} />
-                                <View style={styles.details}>
-                                    <Text style={styles.name}>{item.name}</Text>
-                                    <Text>{item.price}€</Text>
-                                    <View style={styles.quantityContainer}>
-                                        <Button title="-" onPress={() => handleQuantiteChange(item.id, -1)} style={styles.smallButton} />
-                                        <Text style={styles.quantite}>{item.quantite}</Text>
-                                        <Button title="+" onPress={() => handleQuantiteChange(item.id, 1)} style={styles.smallButton} />
+
+            <View style={styles.buttonsRow}>
+                <Button title="📦 Commandes en cours" onPress={() => router.push("/CommandeEnCours")} style={styles.buttonRow} />
+                <Button title="📜 Historique" onPress={() => router.push("/HistoriqueCommandes")} style={styles.buttonRow} />
+            </View>
+
+            {items.length === 0 ? (
+                <Text style={styles.emptyMessage}>C'est vide par ici... 🏜️</Text>
+            ) : (
+                <View style={[styles.rowContainer, width > 768 && styles.rowContainerDesktop]}>
+                    <View style={[styles.itemsContainer, width > 768 && styles.itemsContainerDesktop]}>
+                        <Text style={styles.sectionTitle}>Articles dans ton Panier</Text>
+                        <FlatList
+                            data={items}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <View style={styles.itemContainer}>
+                                    <Image source={{ uri: item.image }} style={styles.image} />
+                                    <View style={styles.details}>
+                                        <Text style={styles.name}>{item.name}</Text>
+                                        <Text>{item.price}€</Text>
+                                        <View style={styles.quantityContainer}>
+                                            <Button title="-" onPress={() => handleQuantiteChange(item.id, -1)} style={styles.smallButton} />
+                                            <Text style={styles.quantite}>{item.quantite}</Text>
+                                            <Button title="+" onPress={() => handleQuantiteChange(item.id, 1)} style={styles.smallButton} />
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        )}
-                    />
-                    <View style={styles.totalContainer}>
-                        <Text style={styles.totalText}>Total: {total.toFixed(2)}€</Text>
+                            )}
+                        />
+                        <View style={styles.totalContainer}>
+                            <Text style={styles.totalText}>Total: {total.toFixed(2)}€</Text>
+                        </View>
                     </View>
-                </View>
 
-                <View style={[styles.formContainer, width > 768 && styles.formContainerDesktop]}>
-                    <Text style={styles.sectionTitle2}>Où veux-tu te faire livrer ?</Text>
-                    <Input placeholder="Code Postal" value={livraison.codePostal} onChangeText={(text) => mettreAJourLivraison("codePostal", text)} />
-                    <Input placeholder="Bâtiment" value={livraison.batiment} onChangeText={(text) => mettreAJourLivraison("batiment", text)} />
-                    <Input placeholder="Salle TD" value={livraison.salleTD} onChangeText={(text) => mettreAJourLivraison("salleTD", text)} />
-                    <Button title="Passer commande" onPress={passerCommande} style={styles.buttonDesktop} />
-                    <View style={styles.buttonContainer}>
-                        <Button title="📦 Commandes en cours" onPress={() => router.push("/CommandeEnCours")} />
-                        <Button title="📜 Historique" onPress={() => router.push("/HistoriqueCommandes")} />
+                    <View style={[styles.formContainer, width > 768 && styles.formContainerDesktop]}>
+                        <Text style={styles.sectionTitle2}>Où veux-tu te faire livrer ?</Text>
+                        <Input placeholder="Code Postal" value={livraison.codePostal} onChangeText={(text) => mettreAJourLivraison("codePostal", text)} />
+                        <Input placeholder="Bâtiment" value={livraison.batiment} onChangeText={(text) => mettreAJourLivraison("batiment", text)} />
+                        <Input placeholder="Salle TD" value={livraison.salleTD} onChangeText={(text) => mettreAJourLivraison("salleTD", text)} />
+                        <Button title="Passer commande" onPress={passerCommande} style={styles.buttonDesktop} />
                     </View>
                 </View>
-            </View>
+            )}
         </ScrollView>
     );
 }
@@ -114,6 +120,14 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Bold",
         marginBottom: 20,
         textAlign: "center",
+    },
+    buttonsRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 20,
+    },
+    buttonRow: {
+        marginHorizontal: 10,
     },
     sectionTitle: {
         fontSize: 15,
@@ -205,18 +219,17 @@ const styles = StyleSheet.create({
         maxWidth: "50%",
         alignSelf: "center",
     },
-    buttonContainer: {
-        flexDirection: "column",
-        alignItems: "center",
-    },
-    buttonDesktop: {
-        maxWidth: 300,
-        alignSelf: "center",
-    },
     smallButton: {
         paddingVertical: 5,
         paddingHorizontal: 10,
         minWidth: 30,
         borderRadius: 50,
+    },
+    emptyMessage: {
+        fontSize: 18,
+        color: "gray",
+        textAlign: "center",
+        marginTop: 20,
+        fontFamily: "Poppins-Regular"
     },
 });

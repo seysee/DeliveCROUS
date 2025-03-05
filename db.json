@@ -102,7 +102,7 @@
       "prenom": "testuser",
       "photo": null,
       "favoris": [
-        "2"
+        "1"
       ]
     },
     {
@@ -118,7 +118,53 @@
     }
   ],
   "favoris": [],
-  "panier": [],
+  "panier": [
+    {
+      "id": "8423",
+      "userId": "1",
+      "itemId": {
+        "itemId": "1",
+        "quantite": 1
+      },
+      "quantite": 1
+    },
+    {
+      "id": "4cc0",
+      "userId": "1",
+      "itemId": {
+        "itemId": "1",
+        "quantite": 1
+      },
+      "quantite": 1
+    },
+    {
+      "id": "e387",
+      "userId": "1",
+      "itemId": {
+        "itemId": "1",
+        "quantite": 1
+      },
+      "quantite": 1
+    },
+    {
+      "id": "5fcf",
+      "userId": "1",
+      "itemId": {
+        "itemId": "1",
+        "quantite": 1
+      },
+      "quantite": 1
+    },
+    {
+      "id": "1151",
+      "userId": "1",
+      "itemId": {
+        "itemId": "1",
+        "quantite": 1
+      },
+      "quantite": 1
+    }
+  ],
   "commandes": [
     {
       "id": "b75d",
@@ -316,6 +362,27 @@
       ],
       "total": null,
       "date": "2025-03-04T23:07:26.226Z",
+      "status": "en attente",
+      "livraison": {
+        "codePostal": "c",
+        "batiment": "c",
+        "salleTD": "c"
+      }
+    },
+    {
+      "id": "7af5",
+      "userId": "1",
+      "items": [
+        {
+          "itemId": {
+            "itemId": "1",
+            "quantite": 1
+          },
+          "quantite": 1
+        }
+      ],
+      "total": null,
+      "date": "2025-03-04T23:51:34.705Z",
       "status": "en attente",
       "livraison": {
         "codePostal": "c",
