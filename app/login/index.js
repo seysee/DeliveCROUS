@@ -173,10 +173,6 @@ const Index = () => {
                 </View>
 
                 <Button title="Se connecter" onPress={handleLogin} />
-
-                <Text style={styles.footer}>
-                    Pas encore de compte ? <Text style={styles.link}>Inscrivez-vous</Text>
-                </Text>
             </View>
         );
 };

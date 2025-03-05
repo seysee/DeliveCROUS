@@ -67,9 +67,7 @@ export default function PanierScreen() {
             </View>
 
             {items.length === 0 ? (
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyMessage}>C'est vide par ici... 🏜️</Text>
-                </View>
+                <Text style={styles.emptyMessage}>C'est vide par ici... 🏜️</Text>
             ) : (
                 <View style={[styles.rowContainer, width > 768 && styles.rowContainerDesktop]}>
                     <View style={[styles.itemsContainer, width > 768 && styles.itemsContainerDesktop]}>
@@ -229,18 +227,9 @@ const styles = StyleSheet.create({
     },
     emptyMessage: {
         fontSize: 18,
-        fontFamily: "Poppins-Regular",
-        color: "#757575",
-        marginTop: 20,
+        color: "gray",
         textAlign: "center",
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: 20,
+        fontFamily: "Poppins-Regular"
     },
 });

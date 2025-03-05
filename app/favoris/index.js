@@ -38,7 +38,7 @@ export default function FavorisScreen() {
         <View style={styles.container}>
             <Text style={styles.title}>Mes Favoris</Text>
             {items.length === 0 ? (
-                <Text style={styles.emptyMessage}>Aucun favori pour le moment.</Text>
+                <Text style={styles.emptyMessage}>Aucun favori pour le moment...</Text>
             ) : (
                 <FlatList
                     data={items}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         color: "#333333"
     },
     emptyMessage: {
-        fontSize: 16,
+        fontSize: 18,
         color: "gray",
         textAlign: "center",
         marginTop: 20,
