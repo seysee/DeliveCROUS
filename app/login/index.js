@@ -1,3 +1,41 @@
+/**
+ * Composant Index
+ *
+ * Ce composant est utilisé pour gérer la page de connexion, l'affichage du profil utilisateur et la gestion de la déconnexion.
+ * Il permet de se connecter avec un email et un mot de passe, ainsi que de modifier les informations personnelles de l'utilisateur (nom, prénom, email, photo de profil et mot de passe).
+ *
+ * Lorsque l'utilisateur est connecté :
+ * - Affiche les informations du profil.
+ * - Permet de choisir une photo de profil à l'aide de `expo-image-picker`.
+ * - Permet de modifier le mot de passe de l'utilisateur.
+ * - Permet de se déconnecter.
+ *
+ * Lorsque l'utilisateur n'est pas connecté :
+ * - Affiche un formulaire de connexion avec des champs pour l'email et le mot de passe.
+ * - Permet de se connecter avec les informations saisies.
+ *
+ * Les données sont récupérées et mises à jour via le contexte d'authentification `AuthContext` et l'API `updateUser`.
+ *
+ * **Hooks utilisés :**
+ * - `useState` : Pour gérer les états locaux du composant (nom, prénom, email, mot de passe, photo, etc.).
+ * - `useEffect` : Pour effectuer des actions secondaires, telles que la gestion de la photo de profil sélectionnée.
+ * - `useContext` : Pour accéder au contexte `AuthContext` et obtenir les informations de l'utilisateur et les fonctions de connexion/déconnexion.
+ *
+ * **Fonctions principales :**
+ * - `handleLogin`: Gère la tentative de connexion en appelant `signIn` du contexte d'authentification.
+ * - `handleSave`: Gère la sauvegarde des informations modifiées, telles que le mot de passe et la photo.
+ * - `handleLogout`: Gère la déconnexion de l'utilisateur.
+ * - `pickImage`: Permet à l'utilisateur de sélectionner une photo de profil à partir de sa galerie.
+ *
+ *
+ * **Bibliothèques externes utilisées :**
+ * - `expo-image-picker` : Pour la sélection de la photo de profil.
+ * - `Alert` : Pour afficher des alertes de succès ou d'erreur.
+ * - `useWindowDimensions` : Pour gérer la réactivité en fonction de la taille de l'écran.
+ * - `AuthContext` : Pour accéder aux informations et fonctions liées à l'authentification de l'utilisateur.
+ *
+ */
+
 import React, { useState, useContext } from "react";
 import { View, Text, Alert, StyleSheet, Pressable, Animated, Image, useWindowDimensions } from "react-native";
 import { AuthContext } from "../../src/context/AuthContext";
@@ -51,22 +89,22 @@ const Index = () => {
         Alert.alert("Déconnexion réussie !");
     };
 
-   const pickImage = async () => {
-       let result = await ImagePicker.launchImageLibraryAsync({
-           mediaTypes: ["image"],
-           allowsEditing: true,
-           aspect: [1, 1],
-           quality: 1,
-       });
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["image"],
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
 
-       if (result.assets && result.assets.length > 0) {
-           const newPhoto = result.assets[0].uri;
-           setPhoto(newPhoto);
-           console.log("📸 Nouvelle photo mise à jour :", newPhoto);
-       } else {
-           console.log("⚠️ Aucune image sélectionnée");
-       }
-   };
+        if (result.assets && result.assets.length > 0) {
+            const newPhoto = result.assets[0].uri;
+            setPhoto(newPhoto);
+            console.log("📸 Nouvelle photo mise à jour :", newPhoto);
+        } else {
+            console.log("⚠️ Aucune image sélectionnée");
+        }
+    };
 
     useEffect(() => {
         console.log("📸 Nouvelle photo sélectionnée :", photo);
@@ -148,33 +186,33 @@ const Index = () => {
             </View>
         );
     }
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Se connecter</Text>
-                <Text style={styles.subtitle}>Bienvenue de retour !</Text>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Se connecter</Text>
+            <Text style={styles.subtitle}>Bienvenue de retour !</Text>
 
-                <View style={styles.inputContainer}>
-                    <Input
-                        label="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Entrez votre email"
-                    />
-                </View>
-
-                <View style={styles.inputContainer}>
-                    <Input
-                        label="Mot de passe"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        placeholder="Entrez votre mot de passe"
-                    />
-                </View>
-
-                <Button title="Se connecter" onPress={handleLogin} />
+            <View style={styles.inputContainer}>
+                <Input
+                    label="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Entrez votre email"
+                />
             </View>
-        );
+
+            <View style={styles.inputContainer}>
+                <Input
+                    label="Mot de passe"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    placeholder="Entrez votre mot de passe"
+                />
+            </View>
+
+            <Button title="Se connecter" onPress={handleLogin} />
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
