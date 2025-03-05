@@ -39,6 +39,7 @@ import { PanierProvider } from "@/src/context/PanierContext";
 import { FavoriProvider } from "@/src/context/FavoriContext";
 import { useFonts } from "expo-font";
 
+
 export default function Page() {
     const [dishes, setDishes] = useState([]);
     const { width } = useWindowDimensions();
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        padding: 20,
         backgroundColor: "#fff",
     },
     title: {
