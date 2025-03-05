@@ -91,6 +91,8 @@ export default function PanierScreen() {
         <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
             <Text style={styles.title}>Mon Panier</Text>
 
+            <Text style={styles.reloadMessage}>N'oublie pas de recharger la page après chaque ajout/suppression d'article ! 🔄</Text> {/* Message de rechargement */}
+
             <View style={styles.buttonsRow}>
                 <Button title="📦 Commandes en cours" onPress={() => router.push("/CommandeEnCours")} style={styles.buttonRow} />
                 <Button title="📜 Historique" onPress={() => router.push("/HistoriqueCommandes")} style={styles.buttonRow} />
@@ -150,6 +152,13 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Bold",
         marginBottom: 20,
         textAlign: "center",
+    },
+    reloadMessage: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#e01020",
+        textAlign: "center",
+        marginBottom: 10,
     },
     buttonsRow: {
         flexDirection: 'row',

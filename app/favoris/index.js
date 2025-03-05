@@ -64,8 +64,11 @@ export default function FavorisScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Mes Favoris</Text>
+            <Text style={styles.reloadMessage}>N'oublie pas de recharger la page après chaque ajout d'article ! 🔄</Text> {/* Message de rechargement */}
+
             {items.length === 0 ? (
                 <Text style={styles.emptyMessage}>Aucun favori pour le moment...</Text>
+
             ) : (
                 <FlatList
                     data={items}
@@ -162,5 +165,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
         color: "#007bff"
+    },
+    reloadMessage: {
+        fontSize: 16,
+        fontFamily: "Poppins-Regular",
+        color: "#e01020",
+        textAlign: "center",
+        marginBottom: 10,
     },
 });

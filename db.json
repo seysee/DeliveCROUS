@@ -120,44 +120,8 @@
   "favoris": [],
   "panier": [
     {
-      "id": "8423",
-      "userId": "1",
-      "itemId": {
-        "itemId": "1",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "4cc0",
-      "userId": "1",
-      "itemId": {
-        "itemId": "1",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "e387",
-      "userId": "1",
-      "itemId": {
-        "itemId": "1",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "5fcf",
-      "userId": "1",
-      "itemId": {
-        "itemId": "1",
-        "quantite": 1
-      },
-      "quantite": 1
-    },
-    {
-      "id": "1151",
-      "userId": "1",
+      "id": "9b0f",
+      "userId": "2",
       "itemId": {
         "itemId": "1",
         "quantite": 1
