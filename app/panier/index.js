@@ -28,7 +28,6 @@
  * **Dépendances :**
  * - Ce composant dépend de l'API d'un serveur local (`http://localhost:5000/items`) pour récupérer la liste des articles.
  */
-
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, FlatList, Image, StyleSheet, ActivityIndicator, useWindowDimensions } from "react-native";
 import { usePanier } from "../../src/context/PanierContext";

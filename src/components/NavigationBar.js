@@ -32,7 +32,6 @@
  * - Chaque `NavItem` est animé lorsqu'il est actif, avec une transition de couleur entre "noir" et "rouge" pour indiquer l'élément sélectionné.
  * - Le composant est responsive et ajuste son comportement en fonction de la taille de l'écran, passant de la disposition mobile (bas de l'écran) à la disposition de bureau (côte gauche de l'écran).
  */
-
 import { View, Text, StyleSheet, useWindowDimensions, Animated, Pressable } from "react-native";
 import { useRouter, usePathname } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -52,17 +51,17 @@ const NavigationBar = () => {
   const router = useRouter();
 
   return (
-    <View style={[styles.container, isDesktop ? styles.desktop : styles.mobile]}>
-      {menuItems.map((item) => (
-        <NavItem
-          key={item.name}
-          item={item}
-          isActive={pathname === item.route}
-          isDesktop={isDesktop}
-          router={router}
-        />
-      ))}
-    </View>
+      <View style={[styles.container, isDesktop ? styles.desktop : styles.mobile]}>
+        {menuItems.map((item) => (
+            <NavItem
+                key={item.name}
+                item={item}
+                isActive={pathname === item.route}
+                isDesktop={isDesktop}
+                router={router}
+            />
+        ))}
+      </View>
   );
 };
 
@@ -87,23 +86,23 @@ const NavItem = ({ item, isActive, isDesktop, router }) => {
   });
 
   return (
-    <Pressable onPress={handleNavigation} style={[styles.link, isDesktop && styles.desktopLink]}>
-      <Animated.Text style={{ color: colorInterpolation }}>
-        <FontAwesome5 name={item.icon} size={isDesktop ? 18 : 22} solid />
-      </Animated.Text>
-      {isDesktop && (
-        <Animated.Text
-          style={[styles.text,
-            {
-              color: colorInterpolation,
-              fontFamily: isActive ? "Poppins-Bold" : "Poppins-Regular"
-            }
-          ]}
-        >
-          {item.name}
+      <Pressable onPress={handleNavigation} style={[styles.link, isDesktop && styles.desktopLink]}>
+        <Animated.Text style={{ color: colorInterpolation }}>
+          <FontAwesome5 name={item.icon} size={isDesktop ? 18 : 22} solid />
         </Animated.Text>
-      )}
-    </Pressable>
+        {isDesktop && (
+            <Animated.Text
+                style={[styles.text,
+                  {
+                    color: colorInterpolation,
+                    fontFamily: isActive ? "Poppins-Bold" : "Poppins-Regular"
+                  }
+                ]}
+            >
+              {item.name}
+            </Animated.Text>
+        )}
+      </Pressable>
   );
 };
 

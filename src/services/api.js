@@ -55,7 +55,6 @@
  * - La fonction `updateUser` retourne l'utilisateur mis à jour si la mise à jour est réussie, ou lance une erreur en cas d'échec.
  * - La fonction `fetchItems` retourne un tableau d'articles ou un tableau vide en cas d'erreur.
  */
-
 const API_URL = "http://localhost:5000";
 
 export const login = async (email: string, password: string) => {

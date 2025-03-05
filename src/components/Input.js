@@ -17,12 +17,11 @@
  * - Si `editable` est `false`, le composant affichera un texte statique qui représente la valeur actuelle. Si `secureTextEntry` est activé, le texte sera remplacé par des points (•) pour masquer les caractères.
  *
 */
-
 import React from "react";
 import { TextInput, View, Text, StyleSheet } from "react-native";
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, editable = true }) => {
-const displayValue = secureTextEntry && !editable ? "•".repeat(value.length) : value;
+    const displayValue = secureTextEntry && !editable ? "•".repeat(value.length) : value;
 
     return (
         <View style={styles.container}>

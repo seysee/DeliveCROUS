@@ -37,7 +37,6 @@
  * - `router` : Utilisé pour naviguer vers la page de commande en cours (`/CommandeEnCours`) après un passage de commande réussi.
  *
  */
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import {router} from "expo-router";

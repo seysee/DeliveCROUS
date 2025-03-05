@@ -22,7 +22,6 @@
  * - `StyleSheet` : Un utilitaire de React Native pour définir des styles.
  *
   */
-
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';

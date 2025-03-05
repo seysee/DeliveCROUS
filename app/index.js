@@ -30,7 +30,6 @@
  * - Les plats sont récupérés depuis une API en local (localhost:5000/items). La réponse de l'API est stockée dans un tableau d'objets, qui est ensuite utilisé pour rendre chaque plat dans la liste.
  *
  */
-
 import { View, Text, FlatList, StyleSheet, SafeAreaView, useWindowDimensions, Platform } from "react-native";
 import ItemCard from "../src/components/ItemCard";
 import { AuthProvider } from "@/src/context/AuthContext";

@@ -44,7 +44,6 @@
  * - `useAuth` : Hook personnalisé permettant de consommer le `AuthContext` dans n'importe quel composant enfant.
  *
  */
-
 import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
 import { login } from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";

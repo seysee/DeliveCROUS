@@ -22,7 +22,6 @@
  * - `useAuth` : Un hook personnalisé pour accéder aux données de l'utilisateur actuellement connecté.
  *
 */
-
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { useAuth } from "../src/context/AuthContext";

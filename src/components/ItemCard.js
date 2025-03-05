@@ -30,7 +30,6 @@
  * - `useFavoris` : Permet de gérer l'état des favoris, avec une fonction pour ajouter ou retirer un élément des favoris.
  *
 */
-
 import { View, Text, Image, TouchableOpacity, StyleSheet, useWindowDimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { useFonts } from "expo-font";
@@ -145,4 +144,3 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
 });
-

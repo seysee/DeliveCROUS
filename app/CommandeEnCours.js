@@ -30,7 +30,6 @@
  * - Chaque commande contient plusieurs items, qui sont affichés avec leurs informations : image, nom, prix et quantité.
  * - Le bouton "Commande reçue" permet de marquer la commande comme reçue et de la supprimer de la liste des commandes en cours.
 */
-
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useAuth } from "../src/context/AuthContext";

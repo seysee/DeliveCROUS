@@ -19,8 +19,6 @@
  * - `ItemCard` : Affiche un plat suggéré dans une carte de manière horizontale dans la section "Plats Suggérés".
  *
  */
-import { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator } from "react-native";
 import { useEffect, useState, useMemo } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";

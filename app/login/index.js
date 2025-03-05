@@ -63,7 +63,6 @@ const Index = () => {
     const [photo, setPhoto] = useState(user?.photo || null);
     const [initialPassword, setInitialPassword] = useState("");
 
-// Fonction pour se connecter
     const handleLogin = async () => {
         console.log("Tentative de connexion...");
         try {
@@ -73,7 +72,7 @@ const Index = () => {
             Alert.alert("Erreur", error.message);
         }
     };
-// Fonction pour enregistrer les modifications (mot de passe et photo)
+
     const handleSave = async () => {
         try {
             const updatedUser = await updateUser(user.id, { password, photo });
@@ -84,34 +83,34 @@ const Index = () => {
             Alert.alert("Erreur", "Impossible de mettre à jour les informations.");
         }
     };
-// Fonction pour se déconnecter
+
     const handleLogout = async () => {
         await signOut();
         Alert.alert("Déconnexion réussie !");
     };
-// Fonction pour sélectionner une nouvelle photo de profil
-   const pickImage = async () => {
-       let result = await ImagePicker.launchImageLibraryAsync({
-           mediaTypes: ["image"],
-           allowsEditing: true,
-           aspect: [1, 1],
-           quality: 1,
-       });
 
-       if (result.assets && result.assets.length > 0) {
-           const newPhoto = result.assets[0].uri;
-           setPhoto(newPhoto);
-           console.log("📸 Nouvelle photo mise à jour :", newPhoto);
-       } else {
-           console.log("⚠️ Aucune image sélectionnée");
-       }
-   };
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["image"],
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (result.assets && result.assets.length > 0) {
+            const newPhoto = result.assets[0].uri;
+            setPhoto(newPhoto);
+            console.log("📸 Nouvelle photo mise à jour :", newPhoto);
+        } else {
+            console.log("⚠️ Aucune image sélectionnée");
+        }
+    };
 
     useEffect(() => {
         console.log("📸 Nouvelle photo sélectionnée :", photo);
     }, [photo]);
 
-// Si l'utilisateur est connecté, afficher son profil
+
     if (user) {
         return (
             <View style={styles.profileContainer}>
@@ -187,34 +186,33 @@ const Index = () => {
             </View>
         );
     }
-    // Si l'utilisateur n'est pas connecté, afficher la page de connexion
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Se connecter</Text>
-                <Text style={styles.subtitle}>Bienvenue de retour !</Text>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Se connecter</Text>
+            <Text style={styles.subtitle}>Bienvenue de retour !</Text>
 
-                <View style={styles.inputContainer}>
-                    <Input
-                        label="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Entrez votre email"
-                    />
-                </View>
-
-                <View style={styles.inputContainer}>
-                    <Input
-                        label="Mot de passe"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        placeholder="Entrez votre mot de passe"
-                    />
-                </View>
-
-                <Button title="Se connecter" onPress={handleLogin} />
+            <View style={styles.inputContainer}>
+                <Input
+                    label="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Entrez votre email"
+                />
             </View>
-        );
+
+            <View style={styles.inputContainer}>
+                <Input
+                    label="Mot de passe"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    placeholder="Entrez votre mot de passe"
+                />
+            </View>
+
+            <Button title="Se connecter" onPress={handleLogin} />
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

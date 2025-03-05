@@ -25,10 +25,6 @@
  * - `useRouter`: Utilisé pour la navigation vers la page de détail d'un article.
  * - `FlatList`: Composant de liste performant pour afficher les favoris.
  */
-import React, {useEffect, useState} from "react";
-import {View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ActivityIndicator} from "react-native";
-import {useFavoris} from "../../src/context/FavoriContext";
-import {useRouter} from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import { useFavoris } from "../../src/context/FavoriContext";
@@ -39,7 +35,6 @@ export default function FavorisScreen() {
     const [items, setItems] = useState([]);
     const router = useRouter();
 
-    // Récupère les articles favoris depuis l'API
     useEffect(() => {
         const fetchItems = async () => {
             try {
@@ -57,7 +52,6 @@ export default function FavorisScreen() {
         fetchItems();
     }, [favoris]);
 
-    // Affiche un loader pendant le chargement des favoris
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
@@ -66,7 +60,7 @@ export default function FavorisScreen() {
             </View>
         );
     }
-    // Affiche les favoris ou un message si aucun favori
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Mes Favoris</Text>

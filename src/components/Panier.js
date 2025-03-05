@@ -19,7 +19,6 @@
  *    - Si le panier contient des articles, la liste des articles dans le panier est affichée sous l'icône du panier à l'aide d'une `FlatList`. Chaque article est affiché avec son nom et son prix.
 
 */
-
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { usePanier } from "../context/PanierContext";
