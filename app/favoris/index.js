@@ -1,7 +1,5 @@
 /**
- * Composant FavorisScreen
- *
- * Ce composant est responsable de l'affichage des articles favoris de l'utilisateur dans l'application.
+ * Le code ci-dessous est responsable de l'affichage des articles favoris de l'utilisateur dans l'application.
  * Il permet de récupérer les articles depuis une API externe, de les filtrer en fonction des favoris
  * stockés dans un contexte global, et d'afficher la liste des articles favoris.
  *
@@ -15,25 +13,28 @@
  * 7. Un indicateur de chargement (`ActivityIndicator`) est affiché pendant la récupération des données de l'API.
  *
  * Utilisation du contexte FavoriContext :
- * - `favoris`: Liste des IDs des articles favoris.
- * - `toggleFavori`: Fonction pour ajouter ou retirer un article des favoris.
- * - `loading`: Indicateur booléen qui permet d'afficher un message de chargement en attendant la récupération des données.
+ * - favoris: Liste des IDs des articles favoris.
+ * - toggleFavori: Fonction pour ajouter ou retirer un article des favoris.
+ * - loading: Indicateur booléen qui permet d'afficher un message de chargement en attendant la récupération des données.
  *
  * Composants et Hooks utilisés :
- * - `useEffect`: Utilisé pour exécuter la récupération des articles au démarrage et lorsque la liste des favoris change.
- * - `useState`: Utilisé pour gérer l'état local des articles récupérés.
- * - `useRouter`: Utilisé pour la navigation vers la page de détail d'un article.
- * - `FlatList`: Composant de liste performant pour afficher les favoris.
+ * - useEffect: Utilisé pour exécuter la récupération des articles au démarrage et lorsque la liste des favoris change.
+ * - useState: Utilisé pour gérer l'état local des articles récupérés.
+ * - useRouter: Utilisé pour la navigation vers la page de détail d'un article.
+ * - FlatList: Composant de liste performant pour afficher les favoris.
  */
+
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import { useFavoris } from "../../src/context/FavoriContext";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../src/context/AuthContext";
 
 export default function FavorisScreen() {
     const { favoris, toggleFavori, loading } = useFavoris();
     const [items, setItems] = useState([]);
     const router = useRouter();
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -61,10 +62,21 @@ export default function FavorisScreen() {
         );
     }
 
+    if (!user) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Mes Favoris</Text>
+                <Text style={styles.authMessage}>
+                    Connecte-toi pour ajouter et voir tes favoris. 🔐
+                </Text>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Mes Favoris</Text>
-            <Text style={styles.reloadMessage}>N'oublie pas de recharger la page après chaque ajout d'article ! 🔄</Text> {/* Message de rechargement */}
+            <Text style={styles.reloadMessage}>N'oublie pas de recharger la page après chaque ajout d'article ! 🔄</Text>
 
             {items.length === 0 ? (
                 <Text style={styles.emptyMessage}>Aucun favori pour le moment...</Text>
@@ -98,7 +110,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         paddingHorizontal: 20,
         paddingTop: 30,
-        marginLeft: 15,
     },
     title: {
         fontSize: 28,
@@ -172,5 +183,12 @@ const styles = StyleSheet.create({
         color: "#e01020",
         textAlign: "center",
         marginBottom: 10,
+    },
+    authMessage: {
+        fontSize: 18,
+        color: "gray",
+        textAlign: "center",
+        marginTop: 20,
+        fontFamily: "Poppins-Regular"
     },
 });

@@ -3,33 +3,34 @@
  *
  * Ce composant est responsable de l'affichage des commandes en cours d'un utilisateur. Il récupère les commandes dont le statut est "en attente" depuis une API et permet de marquer une commande comme reçue.
  *
- * **Fonctionnalités :**
+ * Fonctionnalités :
  *
- * 1. **Récupération des commandes en attente :**
- *    - Utilise `useEffect` pour récupérer les commandes de l'utilisateur à partir d'une API (avec un filtre pour les commandes ayant le statut "en attente").
+ * 1. Récupération des commandes en attente :
+ *    - Utilise useEffect pour récupérer les commandes de l'utilisateur à partir d'une API (avec un filtre pour les commandes ayant le statut "en attente").
  *    - Pour chaque commande, les détails des items sont récupérés à partir d'une autre API et associés à la commande.
  *    - Les commandes sont stockées dans l'état local `commandes` via `useState`.
  *
- * 2. **Affichage des commandes :**
+ * 2. Affichage des commandes :
  *    - Si l'utilisateur n'a aucune commande en cours, un message "Aucune commande en cours" est affiché.
  *    - Si des commandes sont présentes, elles sont affichées sous forme de liste (`FlatList`), avec les informations relatives à chaque commande, y compris les détails des items (image, prix, quantité).
  *
- * 3. **Marquer une commande comme reçue :**
+ * 3. Marquer une commande comme reçue :
  *    - Lorsqu'un utilisateur clique sur le bouton "Commande reçue", la commande est marquée comme reçue via la fonction `confirmerReception` fournie par le contexte `PanierContext`.
  *    - La commande est ensuite retirée de la liste des commandes en attente dans l'état local.
  *
- * **Fonctions principales :**
- * - `fetchCommandes` : Fonction asynchrone utilisée pour récupérer les commandes en cours de l'utilisateur à partir de l'API.
- * - `handleCommandeRecue` : Fonction qui est appelée lorsqu'un utilisateur marque une commande comme reçue. Elle appelle la fonction `confirmerReception` et met à jour la liste des commandes.
+ * Fonctions principales :
+ * - fetchCommandes : Fonction asynchrone utilisée pour récupérer les commandes en cours de l'utilisateur à partir de l'API.
+ * - handleCommandeRecue : Fonction qui est appelée lorsqu'un utilisateur marque une commande comme reçue. Elle appelle la fonction `confirmerReception` et met à jour la liste des commandes.
  *
- * **Hooks utilisés :**
- * - `useState` : Utilisé pour gérer l'état local des commandes.
- * - `useEffect` : Utilisé pour effectuer la récupération des commandes dès que le composant est monté, et pour le mettre à jour lorsque l'utilisateur change.
+ * Hooks utilisés :
+ * - useState : Utilisé pour gérer l'état local des commandes.
+ * - useEffect : Utilisé pour effectuer la récupération des commandes dès que le composant est monté, et pour le mettre à jour lorsque l'utilisateur change.
  *
- * **Détails de l'affichage des items :**
+ * Détails de l'affichage des items :
  * - Chaque commande contient plusieurs items, qui sont affichés avec leurs informations : image, nom, prix et quantité.
  * - Le bouton "Commande reçue" permet de marquer la commande comme reçue et de la supprimer de la liste des commandes en cours.
 */
+
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useAuth } from "../src/context/AuthContext";
