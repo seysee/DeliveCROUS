@@ -1,6 +1,4 @@
 /**
- * ItemDetailsScreen Component
- *
  * Cette page affiche les détails d'un plat sélectionné, y compris son nom, son prix,
  * sa description, ses allergènes et une image associée. Elle permet également
  * de revenir à la page précédente et de voir des plats similaires suggérés.
@@ -14,11 +12,12 @@
  * - Affiche une liste horizontale de plats similaires (plutôt que de simplement lister les plats).
  *
  * Composants :
- * - `PanierButton` : Permet à l'utilisateur d'ajouter l'élément au panier.
- * - `FavoriButton` : Permet à l'utilisateur d'ajouter l'élément aux favoris.
- * - `ItemCard` : Affiche un plat suggéré dans une carte de manière horizontale dans la section "Plats Suggérés".
+ * - PanierButton : Permet à l'utilisateur d'ajouter l'élément au panier.
+ * - FavoriButton : Permet à l'utilisateur d'ajouter l'élément aux favoris.
+ * - ItemCard : Affiche un plat suggéré dans une carte de manière horizontale dans la section "Plats Suggérés".
  *
  */
+
 import { useEffect, useState, useMemo } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -26,11 +25,15 @@ import PanierButton from "@/src/components/PanierButton";
 import FavoriButton from "@/src/components/FavoriteButton";
 import ItemCard from "../../src/components/ItemCard";
 import { useFonts } from "expo-font";
+import { useAuth } from "../../src/context/AuthContext";
+import CustomModal from '../../src/components/CustomModal';
 
 export default function ItemDetailsScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const { width } = useWindowDimensions();
+    const { user } = useAuth();
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [fontsLoaded] = useFonts({
         "Poppins-Thin": require("../../assets/fonts/Poppins-Thin.ttf"),
@@ -85,51 +88,71 @@ export default function ItemDetailsScreen() {
         );
     }
 
+    const handleButtonPress = () => {
+        if (!user || !user.id) {
+            console.log('Modal affiche toi');
+            setModalVisible(true);
+        }
+    };
+
     return (
-        <ScrollView style={[styles.container, width >= 1200 && { marginLeft: 20 }]} contentContainerStyle={styles.contentContainer}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                <Text style={styles.backText}>← Retour</Text>
-            </TouchableOpacity>
+        <>
+            <ScrollView style={[styles.container, width >= 1200 && { marginLeft: 20 }]} contentContainerStyle={styles.contentContainer}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                    <Text style={styles.backText}>← Retour</Text>
+                </TouchableOpacity>
 
-            <Image source={{ uri: item.image }} style={styles.image} />
+                <Image source={{ uri: item.image }} style={styles.image} />
 
-            <View style={styles.details}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <View style={styles.buttonContainer}>
-                        <PanierButton />
-                        <FavoriButton />
+                <View style={styles.details}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.name}>{item.name}</Text>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity onPress={handleButtonPress}>
+                                <PanierButton />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleButtonPress}>
+                                <FavoriButton />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <Text style={styles.price}>{item.price}€</Text>
+                    <Text style={styles.description}>{item.description}</Text>
+
+                    <Text style={styles.allergenTitle}>Allergènes</Text>
+                    <View style={styles.allergenContainer}>
+                        {item.allergens.length > 0 ? (
+                            item.allergens.map((allergen, index) => (
+                                <View key={index} style={styles.allergenTag}>
+                                    <Text style={styles.allergenText}>{allergen}</Text>
+                                </View>
+                            ))
+                        ) : (
+                            <Text style={styles.noAllergenText}>Aucun</Text>
+                        )}
                     </View>
                 </View>
 
-                <Text style={styles.price}>{item.price}€</Text>
-                <Text style={styles.description}>{item.description}</Text>
+                <Text style={styles.suggestedTitle}>Plats Suggérés</Text>
+                <FlatList
+                    data={displayedRelatedItems}
+                    horizontal
+                    keyExtractor={(dish) => dish.id.toString()}
+                    renderItem={({ item }) => <ItemCard item={item} cardWidth={width * 0.4} />}
+                    contentContainerStyle={styles.suggestedContainer}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </ScrollView>
 
-                <Text style={styles.allergenTitle}>Allergènes</Text>
-                <View style={styles.allergenContainer}>
-                    {item.allergens.length > 0 ? (
-                        item.allergens.map((allergen, index) => (
-                            <View key={index} style={styles.allergenTag}>
-                                <Text style={styles.allergenText}>{allergen}</Text>
-                            </View>
-                        ))
-                    ) : (
-                        <Text style={styles.noAllergenText}>Aucun</Text>
-                    )}
-                </View>
-            </View>
-
-            <Text style={styles.suggestedTitle}>Plats Suggérés</Text>
-            <FlatList
-                data={displayedRelatedItems}
-                horizontal
-                keyExtractor={(dish) => dish.id.toString()}
-                renderItem={({ item }) => <ItemCard item={item} cardWidth={width * 0.4} />}
-                contentContainerStyle={styles.suggestedContainer}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                showsHorizontalScrollIndicator={false}
+            <CustomModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                title="Connexion requise"
+                message="Vous devez être connecté(e) pour ajouter un article au panier ou aux favoris."
             />
-        </ScrollView>
+        </>
     );
 }
 

@@ -37,7 +37,7 @@ export default function Layout() {
         />
         <NavigationBar />
       </View>
-              </FavoriProvider>
+      </FavoriProvider>
       </PanierProvider>
     </AuthProvider>
   );
